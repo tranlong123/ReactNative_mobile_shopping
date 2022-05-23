@@ -1,14 +1,13 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 
-const CartView = ({ navigation }) => {
+export default function CartItem({ navigation })  {
     return (
         <View style={{ flex: 1, backgroundColor: 'red' }}>
                 <Text>
-                    CartView
+                    CartItem
                 </Text>
         </View>
     );
 }
 
-export default CartView;

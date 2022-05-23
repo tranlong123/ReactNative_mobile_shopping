@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
         width: 30,
     },
     titleStyle: {
-        fontFamily: 'Avenir',
+        fontFamily: 'roboto',
         color: '#34B089',
         fontSize: 30,
     },
@@ -159,14 +159,14 @@ const styles = StyleSheet.create({
         width: 90
     },
     txtName: {
-        fontFamily: 'Avenir',
+        fontFamily: 'roboto',
         color: '#BCBCBC',
         fontSize: 20,
         fontWeight: 400,
         marginTop: 4,
     },
     txtPrice: {
-        fontFamily: 'Avenir',
+        fontFamily: 'roboto',
         color: '#1a53ff',
     },
     txtDesc: {

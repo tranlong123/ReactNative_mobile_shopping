@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
         marginRight: 8,
     },
     titleStyle: {
-        fontFamily: 'Avenir',
+        fontFamily: 'roboto',
         color: '#34B089',
         fontSize: 30,
     },

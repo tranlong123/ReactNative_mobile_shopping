@@ -24,9 +24,13 @@ export default function Root() {
           headerShown: false
         }}
       >
+
+
+<Stack.Screen name="MAIN" component={Main} />
+
+
         <Stack.Screen name="AUTHENTICATION" component={Authentication} />
 
-        <Stack.Screen name="MAIN" component={Main} />
 
         <Stack.Screen name="PRODUCT" component={Product} />
 

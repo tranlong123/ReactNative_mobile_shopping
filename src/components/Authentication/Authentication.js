@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     ButtonText: {
-        fontFamily: 'Avenir',
+        fontFamily: 'roboto',
         color: '#fff',
         fontWeight: '400',
     }
