@@ -3,24 +3,30 @@ import {
     ImageBackground,
     Text,
     TouchableOpacity,
-} from 'react-native';
-import { View } from 'react-native-web';
-export default function BanNerItem({ imageUrl, descipt }) {
+} from 'react-native'
+import { View } from 'react-native-web'
+export default function BanNerItem({ navigation, imageUrl, descipt }) {
     return (
-        <TouchableOpacity>
+        <TouchableOpacity
+            onPress={() => {
+                navigation.navigate('LISTPRODUCT')
+            }}
+        >
             <ImageBackground
                 style={styles.bannerImage}
                 source={{ uri: imageUrl }}
             >
-                <View style={{
-                    flex: 1,
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}>
+                <View
+                    style={{
+                        flex: 1,
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                    }}
+                >
                     <Text style={styles.text}>{descipt}</Text>
                 </View>
-            </ImageBackground >
+            </ImageBackground>
         </TouchableOpacity>
     )
 }
@@ -35,6 +41,5 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 40,
         color: '#34B089',
-    }
-
+    },
 })

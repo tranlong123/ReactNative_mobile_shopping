@@ -22,7 +22,7 @@ export default function Product({ navigation, id = 2 }) {
                 <View style={styles.header}>
                     <TouchableOpacity
                         onPress={() => {
-                            navigation.navigate('LISTPRODUCT')
+                            navigation.navigate('MAIN')
                         }}
                         style={styles.backIcon}
                     >
