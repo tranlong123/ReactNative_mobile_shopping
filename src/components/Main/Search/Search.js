@@ -1,124 +1,118 @@
-import React from 'react';
-import { 
-    View, Text, TouchableOpacity, 
-    StyleSheet, ScrollView, Image
-} from 'react-native';
+import React, { useState, useEffect } from 'react'
+import {
+  StyleSheet,
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  FlatList,
+  Dimensions,
+  ScrollView,
+} from 'react-native'
 
-import Header from '../Home/header';
+import { FontAwesome } from '@expo/vector-icons'
+import SearchProduct from './SearchProduct'
 
-export default function Search ({ navigation }) {
-    return (
-        <>
-            <Header />
-            <ScrollView style={styles.wrapper}>
-                <View style={styles.ProductContainer}>
-                    <Image
-                        style={styles.ProductImage}
-                        source={{ uri: 'https://cdn.tokyolife.com.vn/forlife/media/catalog/product/cache/61a8c7eb4804248abfa4aef0c8bbd396/i/7/i733-060e_1.jpg' }}
-                    />
-                    <View style={styles.ProductInfo}>
-                        <Text style={styles.txtName} >Áo Polo I7POL004K</Text>
-                        <Text style={styles.txtPrice}>450000 VND</Text>
-                        <Text style={styles.txtDesc}> Description </Text>
-                        <TouchableOpacity
-                            onPress={() => {
-                                navigation.navigate('PRODUCT');
-                            }}
-                        >
-                            <Text style={styles.ShowDetail} >SHOW DETAIL</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-                <View style={styles.ProductContainer}>
-                    <Image
-                        style={styles.ProductImage}
-                        source={{ uri: 'https://cdn.tokyolife.com.vn/forlife/media/catalog/product/cache/61a8c7eb4804248abfa4aef0c8bbd396/i/7/i733-060e_1.jpg' }}
-                    />
-                    <View style={styles.ProductInfo}>
-                        <Text style={styles.txtName} >Áo Polo I7POL004K</Text>
-                        <Text style={styles.txtPrice}>450000 VND</Text>
-                        <Text style={styles.txtDesc}> Description </Text>
-                        <TouchableOpacity
-                            onPress={() => {
-                                navigation.navigate('PRODUCT');
-                            }}
-                        >
-                            <Text style={styles.ShowDetail} >SHOW DETAIL</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-                <View style={styles.ProductContainer}>
-                    <Image
-                        style={styles.ProductImage}
-                        source={{ uri: 'https://cdn.tokyolife.com.vn/forlife/media/catalog/product/cache/61a8c7eb4804248abfa4aef0c8bbd396/i/7/i733-060e_1.jpg' }}
-                    />
-                    <View style={styles.ProductInfo}>
-                        <Text style={styles.txtName} >Áo Polo I7POL004K</Text>
-                        <Text style={styles.txtPrice}>450000 VND</Text>
-                        <Text style={styles.txtDesc}> Description </Text>
-                        <TouchableOpacity
-                            onPress={() => {
-                                navigation.navigate('PRODUCT');
-                            }}
-                        >
-                            <Text style={styles.ShowDetail} >SHOW DETAIL</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-                
-                
-            </ScrollView>
-        </>
-    );
+const deviceWidth = Dimensions.get('window').width
+
+const Search = ({ navigation }) => {
+  const [searchInput, setSearchInput] = useState('polo')
+  const [searchResult, setSearchResult] = useState([])
+
+  useEffect(() => {
+    console.log('useEffect active')
+  }, [searchInput])
+
+  // handle search icon click
+  async function search() {
+    const query = `
+    {
+      "query": {"match": {
+        "name": "${searchInput}"
+      }},
+      "_source" : ["name", "price"],
+      "size": 10
+    }
+    `
+    const response = await fetch('http://mobile-uet.ml:9200/product/_search', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: query,
+    })
+
+    const data = await response.json()
+    setSearchResult(data.hits.hits)
+  }
+  console.log(searchResult)
+  return (
+    <>
+      <View style={styles.headerContainer}>
+        <TextInput
+          style={styles.inputContainer}
+          placeholder="What do you want to buy?"
+          value={searchInput}
+          onChangeText={setSearchInput}
+        />
+        <View style={styles.Shop_bag_Container}>
+          <FontAwesome
+            onClick={() => search()}
+            name="search"
+            size={24}
+            color="#fff"
+          />
+        </View>
+      </View>
+      <ScrollView style={[styles.Top_product, { width: deviceWidth }]}>
+        <View style={styles.flexDrRow}>
+          {searchResult.map((item, index) => (
+            <SearchProduct navigation={navigation} item={item} key={index} />
+          ))}
+        </View>
+      </ScrollView>
+    </>
+  )
 }
 
+export default Search
+
 const styles = StyleSheet.create({
-    wrapper: {
-        backgroundColor: '#fff',
-        shadowOffset: { width: 2, height: 4 },
-        shadowOpacity: 0.2,
-        shadowRadius: 3,
-    },
-
-    ProductContainer: {
-        flexDirection: 'row',
-        marginTop: 6,
-        paddingLeft: 16,
-        paddingBottom: 8,
-        borderTopColor: '#F0F0F0',
-        borderTopWidth: 1,
-        shadowOffset: { width: 2, height: 4 },
-        shadowOpacity: 0.2,
-        shadowRadius: 3,
-    },
-    ProductInfo: {
-        justifyContent: 'space-between',
-        marginLeft: 16,
-    },
-    ProductImage: {
-        marginTop: 8,
-        height: 120,
-        width: 90
-    },
-    txtName: {
-        fontFamily: 'roboto',
-        color: '#BCBCBC',
-        fontSize: 20,
-        fontWeight: 400,
-        marginTop: 4,
-    },
-    txtPrice: {
-        fontFamily: 'roboto',
-        color: '#1a53ff',
-    },
-    txtDesc: {
-    },
-
-    ShowDetail: {
-        color: '#1a53ff',
-
-    },
+  headerContainer: {
+    flexDirection: 'row',
+    paddingTop: 10,
+    backgroundColor: '#34B089',
+  },
+  inputContainer: {
+    height: 30,
+    marginLeft: 10,
+    marginBottom: 8,
+    paddingLeft: 10,
+    borderRadius: 5,
+    backgroundColor: '#fff',
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  inputText: {
+    color: '#999999',
+    fontSize: 16,
+    marginLeft: 8,
+    fontWeight: '100%',
+  },
+  Shop_bag_Container: {
+    paddingHorizontal: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 10,
+  },
+  Top_product: {
+    height: 224,
+    display: 'flex',
+  },
+  flexDrRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+  },
 })
-
-
-
