@@ -8,8 +8,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 export default function ListProduct({ navigation }) {
     return (
         <View style={styles.container}>
-            <ScrollView style={styles.wrapper}>
-                <View style={styles.header}>
+            <View style={styles.header}>
                     <TouchableOpacity
                         onPress={() => {
                             navigation.navigate('MAIN');
@@ -21,6 +20,7 @@ export default function ListProduct({ navigation }) {
                     <Text style={styles.titleStyle} >Product List</Text>
                     <View style={{ width: 30 }} ></View>
                 </View>
+            <ScrollView style={styles.wrapper}>
                 <View style={styles.ProductContainer}>
                     <Image
                         style={styles.ProductImage}
@@ -126,6 +126,7 @@ const styles = StyleSheet.create({
         height: 40,
         flexDirection: 'row',
         justifyContent: 'space-between',
+        backgroundColor: '#fff',
     },
     wrapper: {
         backgroundColor: '#fff',

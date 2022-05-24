@@ -9,10 +9,10 @@ import {
 import { React, useState } from 'react';
 
 import ProductItem from './product_item';
-import Header from './header';
+import Header from './Header';
 import BanNerItem from './BannerItem';
 
-const deviceWidth = Dimensions.get('window').width;
+const deviceWidth = Dimensions.get('screen').width;
 
 export default function Home({ navigation }) {
 
@@ -93,7 +93,7 @@ export default function Home({ navigation }) {
                 }}
             >
                 <Text style={styles.listNameText}>Product</Text>
-                <Text style={styles.seeAll}>See All</Text>
+                <Text style={styles.seeMore}>See More</Text>
             </TouchableOpacity>
             <View style={[styles.Top_product, { width: deviceWidth }]}  >
                 <View style={styles.flexDrRow}>
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#AFAEAF'
     },
-    seeAll: {
+    seeMore: {
         fontSize: 20,
         color: '#1a53ff',
         position: 'absolute',

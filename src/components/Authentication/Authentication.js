@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 
-const deviceWidth = Dimensions.get('window').width;
+const deviceWidth = Dimensions.get('screen').width;
 
 
 export default class Authentication extends Component {
