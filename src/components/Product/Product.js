@@ -56,7 +56,7 @@ export default function Product({ navigation, id = 2 }) {
                     ))}
                 </ScrollView>
                 <Text style={styles.ProductName}>{product.name}</Text>
-                <Text style={styles.ProductPrice}>{product.price}</Text>
+                <Text style={styles.ProductPrice}>{product.price} VND</Text>
                 <Text style={styles.ProductDesc}>{product.description}</Text>
                 <View style={styles.BuyButton}>
                     <Button
