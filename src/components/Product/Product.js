@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
     View,
     Text,
@@ -12,9 +12,11 @@ import { FontAwesome5 } from '@expo/vector-icons'
 
 export default function Product({ navigation, id = 2 }) {
     const [product, setProduct] = useState({ productPhotos: [{ url: '' }] })
-    fetch(`http://mobile-uet.ml:4040/api/v1/product/${id}`)
-        .then((res) => res.json())
-        .then((data) => setProduct(data))
+    useEffect(() => {
+        fetch(`http://mobile-uet.ml:4040/api/v1/product/${id}`)
+            .then((res) => res.json())
+            .then((data) => setProduct(data))
+    }, [])
 
     return (
         <View style={styles.container}>
