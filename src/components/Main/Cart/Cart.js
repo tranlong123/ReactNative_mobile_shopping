@@ -8,11 +8,11 @@ import { Fontisto } from '@expo/vector-icons';
 
 export default function Cart({ navigation }) {
 
-    const [visible, setVisible] = React.useState(false);
+    // const [visible, setVisible] = React.useState(false);
 
-    const showDialog = () => setVisible(true);
+    // const showDialog = () => setVisible(true);
 
-    const hideDialog = () => setVisible(false);
+    // const hideDialog = () => setVisible(false);
 
     return (
         <View style={styles.container}>
@@ -69,7 +69,7 @@ export default function Cart({ navigation }) {
                     title="Buy now"
                     color='#34B089'
                     onPress={() => {
-                        onPress = { showDialog };
+                        alert('Successful Buy')
                     }}
                 />
             </View>

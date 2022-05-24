@@ -105,7 +105,7 @@ export default function Home({ navigation }) {
                 }}
             >
                 <Text style={styles.listNameText}>Product</Text>
-                <Text style={styles.seeAll}>See All</Text>
+                <Text style={styles.seeMore}>See More</Text>
             </TouchableOpacity>
             <View style={[styles.Top_product, { width: deviceWidth }]}>
                 <View style={styles.flexDrRow}>
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#AFAEAF',
     },
-    seeAll: {
+    seeMore: {
         fontSize: 20,
         color: '#1a53ff',
         position: 'absolute',

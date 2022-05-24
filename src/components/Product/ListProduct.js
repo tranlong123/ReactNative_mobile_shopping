@@ -20,8 +20,7 @@ export default function ListProduct({ navigation }) {
     console.log(products)
     return (
         <View style={styles.container}>
-            <ScrollView style={styles.wrapper}>
-                <View style={styles.header}>
+            <View style={styles.header}>
                     <TouchableOpacity
                         onPress={() => {
                             navigation.navigate('MAIN')
@@ -86,6 +85,7 @@ const styles = StyleSheet.create({
         height: 40,
         flexDirection: 'row',
         justifyContent: 'space-between',
+        backgroundColor: '#fff',
     },
     wrapper: {
         backgroundColor: '#fff',
