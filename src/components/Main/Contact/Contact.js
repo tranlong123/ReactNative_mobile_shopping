@@ -33,11 +33,19 @@ export default function Contact({ navigation }) {
         {/*  */}
         <View style={styles.divider} />
 
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('CHANGEINFO');
+          }}
+        >
           <ProfileItem icon="format-list-bulleted" name="Sửa thông tin" />
         </TouchableOpacity>
 
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('ORDERHISTORY');
+          }}
+        >
           <ProfileItem icon="cart-outline" name="Sản phẩm đã mua" />
         </TouchableOpacity>
 
@@ -72,8 +80,8 @@ export default function Contact({ navigation }) {
           <ProfileItem icon="headphones" name="Hỗ trợ" />
         </TouchableOpacity>
 
-        <TouchableOpacity 
-          onPress={()=>{
+        <TouchableOpacity
+          onPress={() => {
             navigation.navigate('AUTHENTICATION')
           }}
         >

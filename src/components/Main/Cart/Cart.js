@@ -1,11 +1,19 @@
 import React from 'react';
 import {
     View, Text, TouchableOpacity,
-    StyleSheet, ScrollView, Image, Button,
+    Button, StyleSheet, ScrollView, Image,
 } from 'react-native';
+import { Paragraph, Dialog, Portal, Provider } from 'react-native-paper';
 import { Fontisto } from '@expo/vector-icons';
 
 export default function Cart({ navigation }) {
+
+    const [visible, setVisible] = React.useState(false);
+
+    const showDialog = () => setVisible(true);
+
+    const hideDialog = () => setVisible(false);
+
     return (
         <View style={styles.container}>
 
@@ -18,10 +26,24 @@ export default function Cart({ navigation }) {
                     />
                     <View style={styles.ProductInfo}>
                         <Text style={styles.txtName} >Áo Polo I7POL004K</Text>
-
-
                         <Text style={styles.txtPrice}>450000 VND</Text>
-                        <Text style={styles.txtDesc}> Description </Text>
+                        <View style={styles.numberOfProduct}>
+                            <TouchableOpacity
+                                onPress={() => {
+
+                                }}
+                            >
+                                <Text style={styles.quantityTxt}>+</Text>
+                            </TouchableOpacity>
+                            <Text style={styles.quantityTxt} >1</Text>
+                            <TouchableOpacity
+                                onPress={() => {
+
+                                }}
+                            >
+                                <Text style={styles.quantityTxt}>-</Text>
+                            </TouchableOpacity>
+                        </View>
                         <TouchableOpacity
                             onPress={() => {
                                 navigation.navigate('PRODUCT');
@@ -41,19 +63,35 @@ export default function Cart({ navigation }) {
                 </View>
 
 
-
             </ScrollView>
-            {/* </View> */}
             <View style={styles.BuyButton}>
                 <Button
                     title="Buy now"
                     color='#34B089'
                     onPress={() => {
-                        navigation.navigate('MAIN');
+                        onPress = { showDialog };
                     }}
                 />
             </View>
-
+            {/* <Provider style={styles.BuyButton}>
+                <Button
+                    title="Buy now"
+                    color='#34B089'
+                    onPress={showDialog}
+                />
+                <Portal>
+                    <Dialog visible={visible} onDismiss={hideDialog}>
+                        <Dialog.Title>Alert</Dialog.Title>
+                        <Dialog.Content>
+                            <Paragraph>This is simple dialog</Paragraph>
+                        </Dialog.Content>
+                        <Dialog.Actions>
+                            <Button onPress={hideDialog}>YES</Button>
+                            <Button onPress={hideDialog}>NOT NOW</Button>
+                        </Dialog.Actions>
+                    </Dialog>
+                </Portal>
+            </Provider> */}
         </View>
     );
 };
@@ -95,6 +133,7 @@ const styles = StyleSheet.create({
         marginLeft: 16,
     },
     ProductImage: {
+        marginTop: 8,
         height: 120,
         width: 90
     },
@@ -109,10 +148,14 @@ const styles = StyleSheet.create({
         fontFamily: 'Avenir',
         color: '#1a53ff',
     },
-    txtDesc: {
-        fontFamily: 'roboto',
+    numberOfProduct: {
+        flexDirection: 'row',
     },
-
+    quantityTxt: {
+        fontSize: 16,
+        paddingLeft: 6,
+        paddingRight: 6,
+    },
     ShowDetail: {
         color: '#1a53ff',
 

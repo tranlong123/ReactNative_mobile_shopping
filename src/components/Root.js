@@ -26,6 +26,8 @@ export default function Root() {
       >
 
 
+
+
 <Stack.Screen name="MAIN" component={Main} />
 
 
@@ -34,10 +36,9 @@ export default function Root() {
 
         <Stack.Screen name="PRODUCT" component={Product} />
 
-
-        <Stack.Screen name="CHANGEINFO" component={ChangeInfo} />
         <Stack.Screen name="ORDERHISTORY" component={OrderHistory} />
         <Stack.Screen name="LISTPRODUCT" component={ListProduct} />
+        <Stack.Screen name="CHANGEINFO" component={ChangeInfo} />
 
       </Stack.Navigator>
     </NavigationContainer>

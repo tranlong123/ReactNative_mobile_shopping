@@ -180,22 +180,3 @@ const styles = StyleSheet.create({
 
 
 
-
-{/* <TouchableOpacity
-                onPress={() => {
-                    navigation.navigate('MAIN');
-                }}
-            >
-                <Text>
-                    goto Main
-                </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                onPress={() => {
-                    navigation.navigate('PRODUCT');
-                }}
-            >
-                <Text>
-                    goto product
-                </Text>
-            </TouchableOpacity> */}
