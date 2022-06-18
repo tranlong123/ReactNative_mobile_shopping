@@ -9,12 +9,12 @@ import ChangeInfo from './ChangeInfo/ChangeInfo';
 import OrderHistory from './OrderHistory/OrderHistory';
 import ListProduct from './Product/ListProduct'
 import Product from './Product/Product';
-import Cart from './Main/Cart/Cart'
 
 
 StatusBar.setHidden(true);
 
 const Stack = createNativeStackNavigator();
+
 
 export default function Root() {
   return (
@@ -24,22 +24,12 @@ export default function Root() {
           headerShown: false
         }}
       >
-
-
-
-
-<Stack.Screen name="MAIN" component={Main} />
-
-
         <Stack.Screen name="AUTHENTICATION" component={Authentication} />
-
-
+        <Stack.Screen name="MAIN" component={Main} />
         <Stack.Screen name="PRODUCT" component={Product} />
-
         <Stack.Screen name="ORDERHISTORY" component={OrderHistory} />
-        <Stack.Screen name="LISTPRODUCT" component={ListProduct} />
         <Stack.Screen name="CHANGEINFO" component={ChangeInfo} />
-
+        <Stack.Screen name="LISTPRODUCT" component={ListProduct} />
       </Stack.Navigator>
     </NavigationContainer>
   );

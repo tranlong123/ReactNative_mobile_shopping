@@ -1,116 +1,72 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react'
 import {
     View, Text, TouchableOpacity,
     StyleSheet, ScrollView, Image
 } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 
+
 export default function ListProduct({ navigation }) {
+
+    const [products, setProducts] = useState([])
+    useEffect(() => {
+        fetch('http://localhost:4040/api/v1/product')
+            .then((res) => res.json())
+            .then((data) => setProducts(data.data))
+    }, [])
+
+
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                    <TouchableOpacity
-                        onPress={() => {
-                            navigation.navigate('MAIN');
-                        }}
-                        style={styles.backIcon}
-                    >
-                        <FontAwesome5 name="chevron-left" size={30} color="#34B089" />
-                    </TouchableOpacity>
-                    <Text style={styles.titleStyle} >Product List</Text>
-                    <View style={{ width: 30 }} ></View>
-                </View>
+                <TouchableOpacity
+                    onPress={() => {
+                        navigation.goBack()
+                    }}
+                    style={styles.backIcon}
+                >
+                    <FontAwesome5 name="chevron-left" size={30} color="#34B089" />
+                </TouchableOpacity>
+                <Text style={styles.titleStyle} >Product List</Text>
+                <View style={{ width: 30 }} ></View>
+            </View>
             <ScrollView style={styles.wrapper}>
-                <View style={styles.ProductContainer}>
-                    <Image
-                        style={styles.ProductImage}
-                        source={{ uri: 'https://cdn.tokyolife.com.vn/forlife/media/catalog/product/cache/61a8c7eb4804248abfa4aef0c8bbd396/i/7/i733-060e_1.jpg' }}
-                    />
-                    <View style={styles.ProductInfo}>
-                        <Text style={styles.txtName} >Áo Polo I7POL004K</Text>
-                        <Text style={styles.txtPrice}>450000 VND</Text>
-                        <Text style={styles.txtDesc}> Description </Text>
-                        <TouchableOpacity
-                            onPress={() => {
-                                navigation.navigate('PRODUCT');
-                            }}
-                        >
-                            <Text style={styles.ShowDetail} >SHOW DETAIL</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-                <View style={styles.ProductContainer}>
-                    <Image
-                        style={styles.ProductImage}
-                        source={{ uri: 'https://cdn.tokyolife.com.vn/forlife/media/catalog/product/cache/61a8c7eb4804248abfa4aef0c8bbd396/i/7/i733-060e_1.jpg' }}
-                    />
-                    <View style={styles.ProductInfo}>
-                        <Text style={styles.txtName} >Áo Polo I7POL004K</Text>
-                        <Text style={styles.txtPrice}>450000 VND</Text>
-                        <Text style={styles.txtDesc}> Description </Text>
-                        <TouchableOpacity
-                            onPress={() => {
-                                navigation.navigate('PRODUCT');
-                            }}
-                        >
-                            <Text style={styles.ShowDetail} >SHOW DETAIL</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-                <View style={styles.ProductContainer}>
-                    <Image
-                        style={styles.ProductImage}
-                        source={{ uri: 'https://cdn.tokyolife.com.vn/forlife/media/catalog/product/cache/61a8c7eb4804248abfa4aef0c8bbd396/i/7/i733-060e_1.jpg' }}
-                    />
-                    <View style={styles.ProductInfo}>
-                        <Text style={styles.txtName} >Áo Polo I7POL004K</Text>
-                        <Text style={styles.txtPrice}>450000 VND</Text>
-                        <Text style={styles.txtDesc}> Description </Text>
-                        <TouchableOpacity
-                            onPress={() => {
-                                navigation.navigate('PRODUCT');
-                            }}
-                        >
-                            <Text style={styles.ShowDetail} >SHOW DETAIL</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-                <View style={styles.ProductContainer}>
-                    <Image
-                        style={styles.ProductImage}
-                        source={{ uri: 'https://cdn.tokyolife.com.vn/forlife/media/catalog/product/cache/61a8c7eb4804248abfa4aef0c8bbd396/i/7/i733-060e_1.jpg' }}
-                    />
-                    <View style={styles.ProductInfo}>
-                        <Text style={styles.txtName} >Áo Polo I7POL004K</Text>
-                        <Text style={styles.txtPrice}>450000 VND</Text>
-                        <Text style={styles.txtDesc}> Description </Text>
-                        <TouchableOpacity
-                            onPress={() => {
-                                navigation.navigate('PRODUCT');
-                            }}
-                        >
-                            <Text style={styles.ShowDetail} >SHOW DETAIL</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-                <View style={styles.ProductContainer}>
-                    <Image
-                        style={styles.ProductImage}
-                        source={{ uri: 'https://cdn.tokyolife.com.vn/forlife/media/catalog/product/cache/61a8c7eb4804248abfa4aef0c8bbd396/i/7/i733-060e_1.jpg' }}
-                    />
-                    <View style={styles.ProductInfo}>
-                        <Text style={styles.txtName} >Áo Polo I7POL004K</Text>
-                        <Text style={styles.txtPrice}>450000 VND</Text>
-                        <Text style={styles.txtDesc}> Description </Text>
-                        <TouchableOpacity
-                            onPress={() => {
-                                navigation.navigate('PRODUCT');
-                            }}
-                        >
-                            <Text style={styles.ShowDetail} >SHOW DETAIL</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
+                {products.map(
+                    (item, index) =>
+                        item && (
+                            <View style={styles.ProductContainer} key={index}>
+                                <Image
+                                    style={styles.ProductImage}
+                                    source={{
+                                        uri: item.productPhotos[0].url,
+                                    }}
+                                />
+                                <View style={styles.ProductInfo}>
+                                    <Text style={styles.txtName}>
+                                        {item.name}
+                                    </Text>
+                                    <Text style={styles.txtPrice}>
+                                        {item.price} VND
+                                    </Text>
+                                    <Text style={styles.txtDesc}>
+                                        {' '}
+                                        Description{' '}
+                                    </Text>
+                                    <TouchableOpacity
+                                        onPress={() => {
+                                            
+                                            navigation.navigate('PRODUCT', {id: item.id} )
+                                            console.log(item.id)
+                                        }}
+                                    >
+                                        <Text style={styles.ShowDetail}>
+                                            SHOW DETAIL
+                                        </Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        )
+                )}
             </ScrollView>
         </View>
     );

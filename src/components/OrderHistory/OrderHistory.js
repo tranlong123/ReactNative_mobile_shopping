@@ -1,7 +1,8 @@
 import React from 'react';
 import {
     View, Text, TouchableOpacity,
-    StyleSheet, ScrollView, Image, Dimensions
+    StyleSheet, ScrollView, 
+    Dimensions
 } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 

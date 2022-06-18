@@ -66,37 +66,3 @@ const Main = () => {
 };
 
 export default Main;
-
-
-
-
-
-    // const gotoOrderHistory = () => {
-    //     navigation.navigate('ORDERHISTORY');
-    // }
-    // const gotoChangeInfo = () => {
-    //     navigation.navigate('CHANGEINFO');
-    // }
-    // const gotoAuthentication = () => {
-    //     navigation.navigate('AUTHENTICATION');
-    // }
-
-
-        // <View style={{ flex: 1, backgroundColor: 'white' }}>
-        //     <TouchableOpacity onPress={gotoOrderHistory} >
-        //         <Text>
-        //             goto OrderHistory
-        //         </Text>
-        //     </TouchableOpacity>
-        //     <TouchableOpacity onPress={gotoChangeInfo} >
-        //         <Text>
-        //             goto CHANGEINFO
-        //         </Text>
-        //     </TouchableOpacity>
-        //     <TouchableOpacity onPress={gotoAuthentication} >
-        //         <Text>
-        //             goto AUTHENTICATION
-        //         </Text>
-        //     </TouchableOpacity>
-        // </View>
-

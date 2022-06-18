@@ -95,7 +95,8 @@ export default function Home({ navigation }) {
                 <Text style={styles.listNameText}>Product</Text>
                 <Text style={styles.seeMore}>See More</Text>
             </TouchableOpacity>
-            <View style={[styles.Top_product, { width: deviceWidth }]}  >
+            <View style={[styles.Top_product, { width: deviceWidth }]}
+            >
                 <View style={styles.flexDrRow}>
                     {
                         productList.map(

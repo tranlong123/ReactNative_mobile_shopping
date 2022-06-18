@@ -1,15 +1,32 @@
 import React, { Component } from 'react';
 import {
     View, Text, TouchableOpacity,
-    StyleSheet, Dimensions, TextInput,
+    StyleSheet,
+    Dimensions,
+    TextInput,
 } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
+import axios from 'axios';
 
 const deviceWidth = Dimensions.get('screen').width;
 
 
 export default class Authentication extends Component {
 
+    constructor(props, navigation) {
+        super(props);
+        this.state = { isSignIn: true, username: '', password: '', check: false }
+        this.gotoMain = this.gotoMain.bind(this)
+
+    }
+
+    isFalse() {
+        this.setState({ check: false })
+    }
+
+    isTrue() {
+        this.setState({ check: true })
+    }
 
     signIn() {
         this.setState({ isSignIn: true })
@@ -19,32 +36,52 @@ export default class Authentication extends Component {
         this.setState({ isSignIn: false })
     }
 
-    constructor(props, navigation) {
-        super(props);
-        this.state = { isSignIn: true }
-        this.gotoMain = this.gotoMain.bind(this)
+    handleSignIn() {
+        console.log(this.state.username, this.state.password)
+        axios.post('http://localhost:4040/login', this.state)
+            .then((res) => this.gotoMain(res))
+
     }
 
-    gotoMain() {
-        this.props.navigation.navigate('MAIN')
+    gotoMain(res) {
+        if (res.data.msg == 'Login success') {
+            this.props.navigation.navigate('MAIN')
+            this.isFalse()
+        } else {
+            this.isTrue()
+        }
     }
+
+
 
     render() {
         const signInJSX = (
             <View>
-                <TextInput style={styles.InputStyle} placeholder="Enter your email" />
-                <TextInput secureTextEntry style={styles.InputStyle} placeholder="Enter your password" />
+                <TextInput style={styles.InputStyle} placeholder="Enter your username"
+                    onChange={(event) => {
+                        this.setState({ username: event.target.value })
+                    }}
+                />
+                <TextInput secureTextEntry style={styles.InputStyle} placeholder="Enter your password"
+                    onChange={(event) => {
+                        this.setState({ password: event.target.value })
+                    }}
+                />
                 <TouchableOpacity
-                    onPress={this.gotoMain}
+                    onPress={() => {
+                        this.handleSignIn()
+                    }
+                    }
                     style={styles.ButtonStyle}
                 >
                     <Text style={styles.ButtonText}>SIGN IN NOW</Text>
                 </TouchableOpacity>
+                <Text style={!this.state.check ? styles.truePw : styles.falsePw}>Username or password incorrect</Text>
             </View>
         );
         const signUpJSX = (
             <View>
-                <TextInput style={styles.InputStyle} placeholder="Enter your name" />
+                <TextInput style={styles.InputStyle} placeholder="Enter your username" />
                 <TextInput style={styles.InputStyle} placeholder="Enter your email" />
                 <TextInput secureTextEntry style={styles.InputStyle} placeholder="Enter your password" />
                 <TextInput secureTextEntry style={styles.InputStyle} placeholder="Re-enter your password" />
@@ -160,5 +197,12 @@ const styles = StyleSheet.create({
         fontFamily: 'roboto',
         color: '#fff',
         fontWeight: '400',
+    },
+    falsePw: {
+        color: 'red',
+        fontSize: 15
+    },
+    truePw: {
+        color: '#3EBA77',
     }
 })

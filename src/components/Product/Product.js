@@ -1,79 +1,76 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react'
 import {
-    View, Text, TouchableOpacity,
-    StyleSheet, ScrollView, Image, Button,
-} from 'react-native';
-import { FontAwesome5 } from '@expo/vector-icons';
+    View,
+    Text,
+    TouchableOpacity,
+    StyleSheet,
+    ScrollView,
+    Image,
+    Button,
+} from 'react-native'
+import { FontAwesome5 } from '@expo/vector-icons'
 
-export default function Product({ navigation, ProName, ProPhoto, ProPrice, ProDescript }) {
+export default function Product({ navigation, route }) {
+    const [product, setProduct] = useState({ productPhotos: [{ url: '' }] })
+    useEffect(() => {
+        fetch(`http://localhost:4040/api/v1/product/${route.params.id}`)
+            .then((res) => res.json())
+            .then((data) => setProduct(data))
+    }, [route.params.id])
+
     return (
         <View style={styles.container}>
-            <View style={styles.swapper} >
+            <View style={styles.swapper}>
                 <View style={styles.header}>
                     <TouchableOpacity
                         onPress={() => {
-                            navigation.navigate('LISTPRODUCT');
+                            navigation.goBack()
                         }}
                         style={styles.backIcon}
                     >
-                        <FontAwesome5 name="chevron-left" size={30} color="#34B089" />
+                        <FontAwesome5
+                            name="chevron-left"
+                            size={30}
+                            color="#34B089"
+                        />
                     </TouchableOpacity>
-                    <Text style={styles.titleStyle} >Product</Text>
+                    <Text style={styles.titleStyle}>Product</Text>
                     <TouchableOpacity
                         onPress={() => {
-                            navigation.navigate('MAIN');
+                            navigation.navigate('MAIN')
                         }}
                         style={styles.backIcon}
                     >
                         <FontAwesome5 name="home" size={30} color="#34B089" />
                     </TouchableOpacity>
                 </View>
-                <ScrollView horizontal={true} style={styles.ImageList} >
+                <ScrollView horizontal={true} style={styles.ImageList}>
+                    {product.productPhotos.map((item, index) => (
                         <Image
                             style={styles.ProductImage}
-                            source={{ uri: 'https://cdn.tokyolife.com.vn/forlife/media/catalog/product/cache/61a8c7eb4804248abfa4aef0c8bbd396/i/7/i733-060e_1.jpg' }}
-
+                            source={{
+                                uri: item.url,
+                            }}
+                            key={index}
                         />
-                        <Image
-                            style={styles.ProductImage}
-                            source={{ uri: 'https://cdn.tokyolife.com.vn/forlife/media/catalog/product/cache/61a8c7eb4804248abfa4aef0c8bbd396/_/o/_o_polo_nam_c_c_i7pol505i_ghi_m_290000_5_5.jpg' }}
-
-                        />
-                        <Image
-                            style={styles.ProductImage}
-                            source={{ uri: 'https://cdn.tokyolife.com.vn/forlife/media/catalog/product/cache/61a8c7eb4804248abfa4aef0c8bbd396/1/2/12_11_.jpg' }}
-
-                        />
-                        <Image
-                            style={styles.ProductImage}
-                            source={{ uri: 'https://cdn.tokyolife.com.vn/forlife/media/catalog/product/cache/61a8c7eb4804248abfa4aef0c8bbd396/_/o/_o_polo_nam_c_c_c_ch_n_d_ng_m_i7pol501g_en_290_000.jpg_2__1_1.jpg' }}
-
-                        />
+                    ))}
                 </ScrollView>
-                <Text style={styles.ProductName}>Áo Polo I7POL004K</Text>
-                <Text style={styles.ProductPrice}>450000 VND</Text>
-                <Text style={styles.ProductDesc}>SUNSTOP UV MASTER vải mát lạnh nhờ sử dụng sợi Rayon làm mát cơ thể giúp người mặc cảm thấy thoải mái ngay cả khi đi giữa trưa hè.
-                    Công nghệ chống nắng Hightech (công nghệ cao): chỉ số chống nắng UPF 50+ chặn đứng tác nhân gây đen sạm, lão hóa, ung thư da, duy trì khả năng chống UV sau nhiều lần giặt trong suốt quá trình sử dụng.
-                    Bảo vệ tốt nhất - ngăn tới 98% tia UV được Viện Dệt May Việt Nam kiểm nghiệm và xác nhận.
-                    Thiết kế thời trang, gọn gàng, an toàn khi di chuyển.
-                    Bảo vệ toàn diện với Áo khoác, Chân váy, Găng tay, khẩu trang.
-                    Đầy đủ cho cả gia đình (Nam, nữ, trẻ em).
-                    Cam kết 1 đổi 1 trong 14 ngày nếu Quý Khách không hài lòng.
-                </Text>
+                <Text style={styles.ProductName}>{product.name}</Text>
+                <Text style={styles.ProductPrice}>{product.price} VND</Text>
+                <Text style={styles.ProductDesc}>{product.description}</Text>
                 <View style={styles.BuyButton}>
                     <Button
                         title="Đưa vào giỏ hàng"
-                        color='#34B089'
+                        color="#34B089"
                         onPress={() => {
-                            navigation.navigate('MAIN');
+                            navigation.navigate('MAIN')
                         }}
                     />
                 </View>
-
             </View>
         </View>
-    );
-};
+    )
+}
 
 const styles = StyleSheet.create({
     container: {
@@ -120,34 +117,11 @@ const styles = StyleSheet.create({
     },
     ProductPrice: {
         padding: 4,
-
     },
     ProductDesc: {
         padding: 4,
-
     },
     BuyButton: {
         padding: 10,
     },
 })
-
-
-
-{/* <TouchableOpacity
-onPress={() => {
-    navigation.navigate('LISTPRODUCT');
-}}
->
-<Text>
-    goto ListProduct
-</Text>
-</TouchableOpacity>
-<TouchableOpacity
-onPress={() => {
-    navigation.navigate('MAIN');
-}}
->
-<Text>
-    goto Cart
-</Text>
-</TouchableOpacity> */}

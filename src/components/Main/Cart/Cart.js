@@ -3,21 +3,15 @@ import {
     View, Text, TouchableOpacity,
     Button, StyleSheet, ScrollView, Image,
 } from 'react-native';
-import { Paragraph, Dialog, Portal, Provider } from 'react-native-paper';
+
 import { Fontisto } from '@expo/vector-icons';
 
 export default function Cart({ navigation }) {
 
-    // const [visible, setVisible] = React.useState(false);
-
-    // const showDialog = () => setVisible(true);
-
-    // const hideDialog = () => setVisible(false);
 
     return (
         <View style={styles.container}>
 
-            {/* <View style={styles.wrapper}> */}
             <ScrollView style={styles.wrapper}>
                 <View style={styles.ProductContainer}>
                     <Image
@@ -73,25 +67,6 @@ export default function Cart({ navigation }) {
                     }}
                 />
             </View>
-            {/* <Provider style={styles.BuyButton}>
-                <Button
-                    title="Buy now"
-                    color='#34B089'
-                    onPress={showDialog}
-                />
-                <Portal>
-                    <Dialog visible={visible} onDismiss={hideDialog}>
-                        <Dialog.Title>Alert</Dialog.Title>
-                        <Dialog.Content>
-                            <Paragraph>This is simple dialog</Paragraph>
-                        </Dialog.Content>
-                        <Dialog.Actions>
-                            <Button onPress={hideDialog}>YES</Button>
-                            <Button onPress={hideDialog}>NOT NOW</Button>
-                        </Dialog.Actions>
-                    </Dialog>
-                </Portal>
-            </Provider> */}
         </View>
     );
 };
