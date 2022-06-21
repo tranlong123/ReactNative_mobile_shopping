@@ -9,7 +9,7 @@ import ChangeInfo from './ChangeInfo/ChangeInfo';
 import OrderHistory from './OrderHistory/OrderHistory';
 import ListProduct from './Product/ListProduct'
 import Product from './Product/Product';
-
+import CateListItem from './Product/CateListItem'
 
 StatusBar.setHidden(true);
 
@@ -30,6 +30,7 @@ export default function Root() {
         <Stack.Screen name="ORDERHISTORY" component={OrderHistory} />
         <Stack.Screen name="CHANGEINFO" component={ChangeInfo} />
         <Stack.Screen name="LISTPRODUCT" component={ListProduct} />
+        <Stack.Screen name="LISTCATEITEM" component={CateListItem} />
       </Stack.Navigator>
     </NavigationContainer>
   );

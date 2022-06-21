@@ -6,7 +6,7 @@ import {
 import { FontAwesome5 } from '@expo/vector-icons';
 
 
-export default function ListProduct({ navigation }) {
+export default function CateListItem({ navigation }) {
 
     const [products, setProducts] = useState([])
     useEffect(() => {
@@ -54,6 +54,7 @@ export default function ListProduct({ navigation }) {
                                     </Text>
                                     <TouchableOpacity
                                         onPress={() => {
+                                            
                                             navigation.navigate('PRODUCT', {id: item.id} )
                                             console.log(item.id)
                                         }}

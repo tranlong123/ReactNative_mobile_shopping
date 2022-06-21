@@ -28,11 +28,7 @@ export default function Product({ navigation, route }) {
                         }}
                         style={styles.backIcon}
                     >
-                        <FontAwesome5
-                            name="chevron-left"
-                            size={30}
-                            color="#34B089"
-                        />
+                        <FontAwesome5    name="chevron-left"    size={30}    color="#34B089" />
                     </TouchableOpacity>
                     <Text style={styles.titleStyle}>Product</Text>
                     <TouchableOpacity

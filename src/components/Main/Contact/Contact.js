@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react'
 import { StyleSheet, View, Text, StatusBar, TouchableOpacity } from 'react-native';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -15,6 +15,14 @@ const ProfileItem = ({ icon, name }) => (
 );
 
 export default function Contact({ navigation }) {
+
+
+  // const [UserInfo, setUserInfo] = useState([])
+  // useEffect(() => {
+  //     fetch('http://localhost:4040/api/v1/user/info')
+  //         .then((res) => res.json())
+  //         .then((data) => setUserInfo(data.data))
+  // }, [])
 
   return (
     <View style={styles.screenContainer}>

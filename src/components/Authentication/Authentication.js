@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import axios from 'axios';
+import register from '../../api/register';
 
 const deviceWidth = Dimensions.get('screen').width;
 
@@ -15,7 +16,11 @@ export default class Authentication extends Component {
 
     constructor(props, navigation) {
         super(props);
-        this.state = { isSignIn: true, username: '', password: '', check: false }
+        this.state = {
+            isSignIn: true,
+            username: '', password: '', check: false,
+            upUsername: '', upEmail: '', upPassword: '', rePassword: ''
+        }
         this.gotoMain = this.gotoMain.bind(this)
 
     }
@@ -52,7 +57,11 @@ export default class Authentication extends Component {
         }
     }
 
-
+    registerUser(){
+        const { upUsername, upEmail, upPassword}= this.state;
+        register (upUsername, upEmail, upPassword)
+        .then( res)
+    }
 
     render() {
         const signInJSX = (
@@ -81,10 +90,28 @@ export default class Authentication extends Component {
         );
         const signUpJSX = (
             <View>
-                <TextInput style={styles.InputStyle} placeholder="Enter your username" />
-                <TextInput style={styles.InputStyle} placeholder="Enter your email" />
-                <TextInput secureTextEntry style={styles.InputStyle} placeholder="Enter your password" />
-                <TextInput secureTextEntry style={styles.InputStyle} placeholder="Re-enter your password" />
+                <TextInput
+                    style={styles.InputStyle}
+                    placeholder="Enter your username"
+                    value={this.state.upUsername}
+                />
+                <TextInput
+                    style={styles.InputStyle}
+                    placeholder="Enter your email"
+                    value={this.state.upEmail}
+                />
+                <TextInput
+                    secureTextEntry
+                    style={styles.InputStyle}
+                    placeholder="Enter your password"
+                    value={this.state.upPassword}
+                />
+                <TextInput
+                    secureTextEntry
+                    style={styles.InputStyle}
+                    placeholder="Re-enter your password"
+                    value={this.state.rePassword}
+                />
                 <TouchableOpacity
                     style={styles.ButtonStyle}
                 >
