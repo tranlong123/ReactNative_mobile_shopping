@@ -9,8 +9,8 @@ function Test({ navigation }) {
     const dispatch = useDispatch()
 
     const handleLogin = async () => {
-        checkLogin()
-        getCart()
+        await checkLogin()
+        await getCart()
     }
 
     const checkLogin = async () => {

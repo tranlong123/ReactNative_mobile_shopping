@@ -76,7 +76,6 @@ const styles = StyleSheet.create({
         marginRight: 6,
     },
     titleStyle: {
-        fontFamily: 'Avenir',
         color: '#34B089',
         fontSize: 30,
     },

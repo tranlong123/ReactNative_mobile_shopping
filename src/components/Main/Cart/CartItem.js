@@ -111,14 +111,12 @@ const styles = StyleSheet.create({
         width: 90,
     },
     txtName: {
-        fontFamily: 'Avenir',
         color: '#BCBCBC',
         fontSize: 15,
         fontWeight: 400,
         marginTop: 4,
     },
     txtPrice: {
-        fontFamily: 'Avenir',
         color: '#1a53ff',
     },
     numberOfProduct: {

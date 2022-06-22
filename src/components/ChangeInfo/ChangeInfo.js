@@ -1,56 +1,110 @@
-import React from 'react';
+import React, { useState } from 'react'
 import {
-    View, Text, TouchableOpacity,
-    StyleSheet, TextInput,
-} from 'react-native';
-import { FontAwesome5 } from '@expo/vector-icons';
-
+    View,
+    Text,
+    TouchableOpacity,
+    StyleSheet,
+    TextInput,
+} from 'react-native'
+import { FontAwesome5 } from '@expo/vector-icons'
+import { useSelector } from 'react-redux'
+import helper from '../../api/helper'
 export default function ChangeInfo({ navigation }) {
+    const [user, setUser] = useState({
+        ...useSelector((state) => state).user,
+        password: '',
+        rePassword: '',
+    })
+    const [message, setMessage] = useState('')
+    const handleChangeInfo = async () => {
+        if (user.password != user.rePassword) {
+            setMessage('Password is not match')
+            return
+        }
+        const response = await helper.put(
+            'http://localhost:3000/cms/v1/user/' + user.email,
+            user,
+        )
+        setMessage('Your info is updated', JSON.stringify(response))
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.wrapper}>
                 <View style={styles.header}>
                     <TouchableOpacity
                         onPress={() => {
-                            navigation.navigate('MAIN');
+                            navigation.navigate('MAIN')
                         }}
                         style={styles.backIcon}
                     >
-                        <FontAwesome5 name="chevron-left" size={30} color="#34B089" />
+                        <FontAwesome5
+                            name="chevron-left"
+                            size={30}
+                            color="#34B089"
+                        />
                     </TouchableOpacity>
-                    <Text style={styles.titleStyle} >User Infomation </Text>
-                    <View style={{ width: 20 }} ></View>
+                    <Text style={styles.titleStyle}>User Infomation </Text>
+                    <View style={{ width: 20 }}></View>
                 </View>
                 <View style={styles.body}>
                     <TextInput
                         style={styles.textInput}
-                        placeholder="Enter your name"
+                        placeholder="Change your name"
                         autoCapitalize="none"
-                        // value={txtName}
+                        value={user.username}
+                        onChange={(event) =>
+                            setUser((user) => ({
+                                ...user,
+                                username: event.target.value,
+                            }))
+                        }
                         underlineColorAndroid="transparent"
                     />
                     <TextInput
                         style={styles.textInput}
-                        placeholder="Enter your address"
+                        placeholder="Change password"
                         autoCapitalize="none"
-                        // value={txtAddress}
+                        value={user.password}
+                        onChange={(event) =>
+                            setUser((user) => ({
+                                ...user,
+                                password: event.target.value,
+                            }))
+                        }
                         underlineColorAndroid="transparent"
                     />
                     <TextInput
                         style={styles.textInput}
-                        placeholder="Enter your phone number"
+                        placeholder="Re-enter password"
                         autoCapitalize="none"
-                        // value={txtPhone}
+                        value={user.rePassword}
+                        onChange={(event) =>
+                            setUser((user) => ({
+                                ...user,
+                                rePassword: event.target.value,
+                            }))
+                        }
                         underlineColorAndroid="transparent"
                     />
-                    <TouchableOpacity style={styles.signInContainer}>
-                        <Text style={styles.signInTextStyle}>CHANGE YOUR INFOMATION</Text>
+                    {message ? (
+                        <Text style={styles.messageCenter}>{message}</Text>
+                    ) : (
+                        <Text></Text>
+                    )}
+                    <TouchableOpacity
+                        style={styles.signInContainer}
+                        onPress={handleChangeInfo}
+                    >
+                        <Text style={styles.signInTextStyle}>
+                            CHANGE YOUR INFOMATION
+                        </Text>
                     </TouchableOpacity>
                 </View>
             </View>
         </View>
-    );
-};
+    )
+}
 
 const styles = StyleSheet.create({
     container: {
@@ -84,15 +138,17 @@ const styles = StyleSheet.create({
         height: 45,
         marginHorizontal: 20,
         backgroundColor: '#FFFFFF',
-        fontFamily: 'Avenir',
         paddingLeft: 20,
         borderRadius: 20,
         marginBottom: 20,
         borderColor: '#2ABB9C',
-        borderWidth: 1
+        borderWidth: 1,
     },
     signInTextStyle: {
-        color: '#FFF', fontFamily: 'Avenir', fontWeight: '600', paddingHorizontal: 20
+        color: '#FFF',
+
+        fontWeight: '600',
+        paddingHorizontal: 20,
     },
     signInContainer: {
         marginHorizontal: 20,
@@ -101,9 +157,12 @@ const styles = StyleSheet.create({
         height: 45,
         alignItems: 'center',
         justifyContent: 'center',
-        alignSelf: 'stretch'
+        alignSelf: 'stretch',
+    },
+    messageCenter: {
+        textAlign: 'center',
+        color: 'red',
+        fontSize: 15,
+        paddingBottom: 8,
     },
 })
-
-
-

@@ -1,53 +1,53 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react'
 import {
-    View, Text, TouchableOpacity,
-    StyleSheet, ScrollView, 
-    Dimensions
-} from 'react-native';
-import { FontAwesome5 } from '@expo/vector-icons';
+    View,
+    Text,
+    TouchableOpacity,
+    StyleSheet,
+    ScrollView,
+    Dimensions,
+} from 'react-native'
+import { FontAwesome5 } from '@expo/vector-icons'
+import OrderItem from './OrderItem'
+import { useIsFocused } from '@react-navigation/native'
+import helper from '../../api/helper'
 
-const deviceWidth = Dimensions.get('screen').width;
+const deviceWidth = Dimensions.get('screen').width
 
 export default function OrderHistory({ navigation }) {
+    const [orders, setOrders] = useState([])
+    useEffect(async () => {
+        const response = await helper.get('http://localhost:3000/cms/v1/order')
+        setOrders(response.data.data)
+    }, [useIsFocused()])
+
     return (
         <View style={styles.container}>
             <View style={styles.header}>
                 <TouchableOpacity
                     onPress={() => {
-                        navigation.navigate('MAIN');
+                        navigation.navigate('MAIN')
                     }}
                     style={styles.backIcon}
                 >
-                    <FontAwesome5 name="chevron-left" size={30} color="#34B089" />
+                    <FontAwesome5
+                        name="chevron-left"
+                        size={30}
+                        color="#34B089"
+                    />
                 </TouchableOpacity>
-                <Text style={styles.titleStyle} >Order History</Text>
-                <View style={{ width: 30 }} ></View>
+                <Text style={styles.titleStyle}>Order History</Text>
+                <View style={{ width: 30 }}></View>
             </View>
             <ScrollView style={styles.wrapper}>
-                <View style={styles.OrderContainer}>
-                    <View style={styles.orderRow}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <Text style={{ color: '#9A9A9A', fontWeight: 'bold' }}>Order id:</Text>
-                            <Text style={{ color: '#2ABB9C' }}>ORD</Text>
-                        </View>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <Text style={{ color: '#9A9A9A', fontWeight: 'bold' }}>OrderTime:</Text>
-                            <Text style={{ color: '#C21C70' }}>2022-04-24 00:00:00</Text>
-                        </View>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <Text style={{ color: '#9A9A9A', fontWeight: 'bold' }}>Product:</Text>
-                            <Text style={{ color: '#2ABB9C' }}>Quần Shorts Nam I7SHP513I</Text>
-                        </View>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <Text style={{ color: '#9A9A9A', fontWeight: 'bold' }}>quantity ordered:</Text>
-                            <Text style={{ color: '#C21C70', fontWeight: 'bold' }}>1</Text>
-                        </View>
-                    </View>
-                </View>
+                {orders.map((order, index) => (
+                    <OrderItem key={index} order={order}></OrderItem>
+                ))}
+                <Text>{JSON.stringify(orders)}</Text>
             </ScrollView>
         </View>
-    );
-};
+    )
+}
 
 const styles = StyleSheet.create({
     container: {
@@ -86,7 +86,6 @@ const styles = StyleSheet.create({
         paddingBottom: 8,
         borderTopColor: '#F0F0F0',
         borderTopWidth: 1,
-
     },
     orderRow: {
         backgroundColor: '#FFF',
@@ -97,7 +96,6 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.2,
         padding: 10,
         borderRadius: 2,
-        justifyContent: 'space-around'
-    }
+        justifyContent: 'space-around',
+    },
 })
-
