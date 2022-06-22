@@ -1,13 +1,26 @@
 import React from 'react';
 import {
     View, Text, TouchableOpacity,
-    Button, StyleSheet, ScrollView, Image,
+    Button, StyleSheet, ScrollView, Image, Alert,
 } from 'react-native';
 
 import { Fontisto } from '@expo/vector-icons';
 
 export default function Cart({ navigation }) {
 
+    const createAlert = () =>
+        Alert.alert(
+            "Notice",
+            "Buy now?",
+            [
+                {
+                    text: "Cancel",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
+                },
+                { text: "OK", onPress: () => console.log("OK Pressed") }
+            ]
+        );
 
     return (
         <View style={styles.container}>
@@ -63,7 +76,7 @@ export default function Cart({ navigation }) {
                     title="Buy now"
                     color='#34B089'
                     onPress={() => {
-                        alert('Successful Buy')
+                        createAlert()
                     }}
                 />
             </View>

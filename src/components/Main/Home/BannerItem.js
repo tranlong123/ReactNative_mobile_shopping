@@ -5,9 +5,14 @@ import {
     TouchableOpacity,
 } from 'react-native';
 import { View } from 'react-native-web';
-export default function BanNerItem({ imageUrl, descipt }) {
+export default function BanNerItem({ imageUrl, id }) {
     return (
-        <TouchableOpacity>
+        <TouchableOpacity
+            onPress={() => {
+                navigation.navigate('LISTCATEITEM', { id: id })
+                console.log(id)
+            }}
+        >
             <ImageBackground
                 style={styles.bannerImage}
                 source={{ uri: imageUrl }}
@@ -18,7 +23,6 @@ export default function BanNerItem({ imageUrl, descipt }) {
                     justifyContent: 'center',
                     alignItems: 'center',
                 }}>
-                    <Text style={styles.text}>{descipt}</Text>
                 </View>
             </ImageBackground >
         </TouchableOpacity>
@@ -31,10 +35,10 @@ const styles = StyleSheet.create({
         marginRight: 10,
         borderRadius: 10,
         elevation: 1,
+        shadowColor: 'black',
+        shadowOffset: { width: 2, height: 4 },
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
     },
-    text: {
-        fontSize: 40,
-        color: '#34B089',
-    }
 
 })

@@ -18,11 +18,11 @@ export default class Authentication extends Component {
         super(props);
         this.state = {
             isSignIn: true,
-            username: '', password: '', check: false,
+            email: '', password: '', check: false,
             upUsername: '', upEmail: '', upPassword: '', rePassword: ''
         }
         this.gotoMain = this.gotoMain.bind(this)
-
+        this.registerUser = this.registerUser.bind(this)
     }
 
     isFalse() {
@@ -42,8 +42,8 @@ export default class Authentication extends Component {
     }
 
     handleSignIn() {
-        console.log(this.state.username, this.state.password)
-        axios.post('http://localhost:4040/login', this.state)
+        console.log(this.state.email, this.state.password)
+        axios.post('http://localhost:3000/login', this.state)
             .then((res) => this.gotoMain(res))
 
     }
@@ -60,15 +60,17 @@ export default class Authentication extends Component {
     registerUser(){
         const { upUsername, upEmail, upPassword}= this.state;
         register (upUsername, upEmail, upPassword)
-        .then( res)
+        .then(res=>{
+            console.log(res)
+        })
     }
 
     render() {
         const signInJSX = (
             <View>
-                <TextInput style={styles.InputStyle} placeholder="Enter your username"
+                <TextInput style={styles.InputStyle} placeholder="Enter your email"
                     onChange={(event) => {
-                        this.setState({ username: event.target.value })
+                        this.setState({ email: event.target.value })
                     }}
                 />
                 <TextInput secureTextEntry style={styles.InputStyle} placeholder="Enter your password"
@@ -85,7 +87,7 @@ export default class Authentication extends Component {
                 >
                     <Text style={styles.ButtonText}>SIGN IN NOW</Text>
                 </TouchableOpacity>
-                <Text style={!this.state.check ? styles.truePw : styles.falsePw}>Username or password incorrect</Text>
+                <Text style={!this.state.check ? styles.trueCheck : styles.falseCheck}>email or password incorrect</Text>
             </View>
         );
         const signUpJSX = (
@@ -93,27 +95,36 @@ export default class Authentication extends Component {
                 <TextInput
                     style={styles.InputStyle}
                     placeholder="Enter your username"
-                    value={this.state.upUsername}
+                    onChange={(event) => {
+                        this.setState({ upUsername: event.target.value })
+                    }}                
                 />
                 <TextInput
                     style={styles.InputStyle}
                     placeholder="Enter your email"
-                    value={this.state.upEmail}
+                    onChange={(event) => {
+                        this.setState({ upEmail: event.target.value })
+                    }}
                 />
                 <TextInput
                     secureTextEntry
                     style={styles.InputStyle}
                     placeholder="Enter your password"
-                    value={this.state.upPassword}
+                    onChange={(event) => {
+                        this.setState({ upPassword: event.target.value })
+                    }}
                 />
                 <TextInput
                     secureTextEntry
                     style={styles.InputStyle}
                     placeholder="Re-enter your password"
-                    value={this.state.rePassword}
+                    onChange={(event) => {
+                        this.setState({ rePassword: event.target.value })
+                    }}
                 />
                 <TouchableOpacity
                     style={styles.ButtonStyle}
+                    onPress={this.registerUser}
                 >
                     <Text style={styles.ButtonText}>SIGN UP NOW</Text>
                 </TouchableOpacity>
@@ -225,11 +236,11 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontWeight: '400',
     },
-    falsePw: {
+    falseCheck: {
         color: 'red',
         fontSize: 15
     },
-    truePw: {
+    trueCheck: {
         color: '#3EBA77',
     }
 })

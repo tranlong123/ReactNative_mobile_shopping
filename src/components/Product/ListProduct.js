@@ -10,7 +10,7 @@ export default function ListProduct({ navigation }) {
 
     const [products, setProducts] = useState([])
     useEffect(() => {
-        fetch('http://localhost:4040/api/v1/product')
+        fetch('http://localhost:3000/api/v1/product')
             .then((res) => res.json())
             .then((data) => setProducts(data.data))
     }, [])
@@ -55,7 +55,6 @@ export default function ListProduct({ navigation }) {
                                     <TouchableOpacity
                                         onPress={() => {
                                             navigation.navigate('PRODUCT', {id: item.id} )
-                                            console.log(item.id)
                                         }}
                                     >
                                         <Text style={styles.ShowDetail}>

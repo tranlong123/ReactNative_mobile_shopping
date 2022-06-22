@@ -13,7 +13,7 @@ import { FontAwesome5 } from '@expo/vector-icons'
 export default function Product({ navigation, route }) {
     const [product, setProduct] = useState({ productPhotos: [{ url: '' }] })
     useEffect(() => {
-        fetch(`http://localhost:4040/api/v1/product/${route.params.id}`)
+        fetch(`http://localhost:3000/api/v1/product/${route.params.id}`)
             .then((res) => res.json())
             .then((data) => setProduct(data))
     }, [route.params.id])

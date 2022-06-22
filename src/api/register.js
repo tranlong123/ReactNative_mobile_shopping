@@ -1,10 +1,9 @@
 const register =( username , email, password ) =>{
-    fetch('http://localhost:4040/register',
+    fetch('http://localhost:3000/register',
     {
         method: 'POST',
         headers: {
             'content-type': 'application/json',
-            Accept: 'application/json'
         },
         body: JSON.stringify({username, email, password})
     })

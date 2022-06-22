@@ -4,20 +4,20 @@ import {
     Image,
     TouchableOpacity,
 } from 'react-native';
-export default function ProductItem({ navigation, imageUrl, name, price, Descript }) {
+export default function ProductItem({ navigation, imageUrl, name, price, id }) {
     return (
         <TouchableOpacity
             onPress={() => {
-                navigation.navigate('PRODUCT');
+                navigation.navigate('PRODUCT', {id: id } )
             }}
             style={styles.productItem}
         >
-                <Image
-                    style={styles.productImage}
-                    source={{ uri: imageUrl }}
-                />
-                <Text style={styles.productName} >{name}</Text>
-                <Text style={styles.productPrice}>{price}</Text>
+            <Image
+                style={styles.productImage}
+                source={{ uri: imageUrl }}
+            />
+            <Text style={styles.productName} >{name}</Text>
+            <Text style={styles.productPrice}>{price}</Text>
         </TouchableOpacity>
     )
 }

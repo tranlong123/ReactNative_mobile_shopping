@@ -6,13 +6,13 @@ import {
 import { FontAwesome5 } from '@expo/vector-icons';
 
 
-export default function CateListItem({ navigation }) {
+export default function CateListItem({ navigation , route }) {
 
-    const [products, setProducts] = useState([])
+    const [CateProducts, setCateProducts] = useState([])
     useEffect(() => {
-        fetch('http://localhost:4040/api/v1/product')
+        fetch(`http://localhost:3000/api/v1/product/${route.params.id}`)
             .then((res) => res.json())
-            .then((data) => setProducts(data.data))
+            .then((data) => setCateProducts(data.data))
     }, [])
 
 
@@ -31,7 +31,7 @@ export default function CateListItem({ navigation }) {
                 <View style={{ width: 30 }} ></View>
             </View>
             <ScrollView style={styles.wrapper}>
-                {products.map(
+                {CateProducts.map(
                     (item, index) =>
                         item && (
                             <View style={styles.ProductContainer} key={index}>
@@ -54,7 +54,6 @@ export default function CateListItem({ navigation }) {
                                     </Text>
                                     <TouchableOpacity
                                         onPress={() => {
-                                            
                                             navigation.navigate('PRODUCT', {id: item.id} )
                                             console.log(item.id)
                                         }}
