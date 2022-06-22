@@ -1,18 +1,37 @@
 import React, { useState, useEffect } from 'react'
-import {
-    StyleSheet,
-    View,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    Dimensions,
-    ScrollView,
-} from 'react-native'
-import { login, logout } from '../redux/action'
+import { View, Text, TouchableOpacity } from 'react-native'
+import { login, logout, setCart } from '../redux/action'
 import { useDispatch, useSelector } from 'react-redux'
+import axios from 'axios'
+import helper from '../api/helper'
 
 function Test({ navigation }) {
     const dispatch = useDispatch()
+
+    const handleLogin = async () => {
+        checkLogin()
+        getOrder()
+    }
+
+    const checkLogin = async () => {
+        const payload = {
+            email: 'nguoidung01@gmail.com',
+            password: 'nguoidung01',
+        }
+        const loginResponse = await helper.post(
+            'http://localhost:3000/login',
+            payload,
+        )
+        dispatch(login(loginResponse.data.data))
+    }
+
+    const getOrder = async () => {
+        const response = await helper.get(
+            'http://localhost:3000/cms/v1/order/cart',
+        )
+        dispatch(setCart(response.data))
+    }
+
     return (
         <View>
             <Text>Test Page</Text>
@@ -20,11 +39,11 @@ function Test({ navigation }) {
                 The user is:{' '}
                 {JSON.stringify(useSelector((state) => state.user))}
             </Text>
-            <TouchableOpacity
-                onPress={() => {
-                    dispatch(login({ email: 'test', username: 'test' }))
-                }}
-            >
+            <Text>
+                The cart is:{' '}
+                {JSON.stringify(useSelector((state) => state.cart))}
+            </Text>
+            <TouchableOpacity onPress={handleLogin}>
                 <Text>Login</Text>
             </TouchableOpacity>
             <TouchableOpacity

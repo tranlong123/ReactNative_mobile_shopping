@@ -1,3 +1,4 @@
+import axios from 'axios'
 import constant from './constant'
 
 const initialState = {
@@ -16,12 +17,17 @@ export function reducer(state = initialState, action) {
         case constant.LOGOUT:
             console.log('LOGOUT')
             newState.user = {}
+            newState.cart = {}
             break
         case constant.INSERT_PRODUCT:
             console.log('INSERT_PRODUCT')
             break
         case constant.REMOVE_PRODUCT:
             console.log('REMOVE_PRODUCT')
+            break
+        case constant.SET_CART:
+            console.log('SET_CART')
+            newState.cart = action.payload
             break
         case constant.REMOVE_CART:
             console.log('REMOVE_CART')
