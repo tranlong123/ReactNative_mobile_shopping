@@ -1,20 +1,23 @@
 import React, { useState, useEffect } from 'react'
 import {
-    View, Text, TouchableOpacity,
-    StyleSheet, ScrollView, Image
-} from 'react-native';
-import { FontAwesome5 } from '@expo/vector-icons';
+    View,
+    Text,
+    TouchableOpacity,
+    StyleSheet,
+    ScrollView,
+    Image,
+} from 'react-native'
+import { FontAwesome5 } from '@expo/vector-icons'
 
-
-export default function CateListItem({ navigation , route }) {
-
+export default function CateListItem({ navigation, route }) {
     const [CateProducts, setCateProducts] = useState([])
     useEffect(() => {
-        fetch(`http://localhost:3000/api/v1/product/${route.params.id}`)
+        fetch(
+            `http://localhost:3000/api/v1/product?productLine=${route.params.id}`,
+        )
             .then((res) => res.json())
             .then((data) => setCateProducts(data.data))
     }, [])
-
 
     return (
         <View style={styles.container}>
@@ -25,10 +28,14 @@ export default function CateListItem({ navigation , route }) {
                     }}
                     style={styles.backIcon}
                 >
-                    <FontAwesome5 name="chevron-left" size={30} color="#34B089" />
+                    <FontAwesome5
+                        name="chevron-left"
+                        size={30}
+                        color="#34B089"
+                    />
                 </TouchableOpacity>
-                <Text style={styles.titleStyle} >Product List</Text>
-                <View style={{ width: 30 }} ></View>
+                <Text style={styles.titleStyle}>Product List</Text>
+                <View style={{ width: 30 }}></View>
             </View>
             <ScrollView style={styles.wrapper}>
                 {CateProducts.map(
@@ -54,7 +61,9 @@ export default function CateListItem({ navigation , route }) {
                                     </Text>
                                     <TouchableOpacity
                                         onPress={() => {
-                                            navigation.navigate('PRODUCT', {id: item.id} )
+                                            navigation.navigate('PRODUCT', {
+                                                id: item.id,
+                                            })
                                             console.log(item.id)
                                         }}
                                     >
@@ -64,12 +73,12 @@ export default function CateListItem({ navigation , route }) {
                                     </TouchableOpacity>
                                 </View>
                             </View>
-                        )
+                        ),
                 )}
             </ScrollView>
         </View>
-    );
-};
+    )
+}
 
 const styles = StyleSheet.create({
     container: {
@@ -104,7 +113,6 @@ const styles = StyleSheet.create({
         paddingBottom: 8,
         borderTopColor: '#F0F0F0',
         borderTopWidth: 1,
-
     },
     ProductInfo: {
         justifyContent: 'space-between',
@@ -112,7 +120,7 @@ const styles = StyleSheet.create({
     },
     ProductImage: {
         height: 120,
-        width: 90
+        width: 90,
     },
     txtName: {
         fontFamily: 'roboto',
@@ -125,14 +133,9 @@ const styles = StyleSheet.create({
         fontFamily: 'roboto',
         color: '#1a53ff',
     },
-    txtDesc: {
-    },
+    txtDesc: {},
 
     ShowDetail: {
         color: '#1a53ff',
-
     },
 })
-
-
-

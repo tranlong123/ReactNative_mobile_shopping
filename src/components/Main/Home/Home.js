@@ -5,17 +5,16 @@ import {
     Dimensions,
     ScrollView,
     TouchableOpacity,
-} from 'react-native';
+} from 'react-native'
 import React, { useState, useEffect } from 'react'
 
-import ProductItem from './product_item';
-import Header from './Header';
-import BanNerItem from './BannerItem';
+import ProductItem from './product_item'
+import Header from './Header'
+import BanNerItem from './BannerItem'
 
-const deviceWidth = Dimensions.get('screen').width;
+const deviceWidth = Dimensions.get('screen').width
 
 export default function Home({ navigation }) {
-
     const [products, setProducts] = useState([])
     useEffect(() => {
         fetch('http://localhost:3000/api/v1/product')
@@ -39,15 +38,14 @@ export default function Home({ navigation }) {
             <View>
                 <ScrollView nestedScrollEnabled={true} horizontal={true}>
                     <View style={styles.bannerList}>
-                        {
-                            bnList.map(
-                                (item, index) => <BanNerItem
-                                    imageUrl={item.imageUrl}
-                                    id={item.id}
-                                    key={index}
-                                />
-                            )
-                        }
+                        {bnList.map((item, index) => (
+                            <BanNerItem
+                                navigation={navigation}
+                                imageUrl={item.imageUrl}
+                                id={item.id}
+                                key={index}
+                            />
+                        ))}
                     </View>
                 </ScrollView>
             </View>
@@ -56,31 +54,28 @@ export default function Home({ navigation }) {
             <TouchableOpacity
                 style={styles.ListName}
                 onPress={() => {
-                    navigation.navigate('LISTPRODUCT');
+                    navigation.navigate('LISTPRODUCT')
                 }}
             >
                 <Text style={styles.listNameText}>Product</Text>
                 <Text style={styles.seeMore}>See More</Text>
             </TouchableOpacity>
-            <View style={[styles.Top_product, { width: deviceWidth }]}
-            >
+            <View style={[styles.Top_product, { width: deviceWidth }]}>
                 <View style={styles.flexDrRow}>
-                    {
-                        products.map(
-                            (item, index) => <ProductItem
-                                navigation={navigation}
-                                name={item.name}
-                                imageUrl={item.productPhotos[0].url}
-                                price={item.price}
-                                id={item.id}
-                                key={index}
-                            />
-                        )   
-                    }
+                    {products.map((item, index) => (
+                        <ProductItem
+                            navigation={navigation}
+                            name={item.name}
+                            imageUrl={item.productPhotos[0].url}
+                            price={item.price}
+                            id={item.id}
+                            key={index}
+                        />
+                    ))}
                 </View>
             </View>
         </ScrollView>
-    );
+    )
 }
 
 const styles = StyleSheet.create({
@@ -108,7 +103,7 @@ const styles = StyleSheet.create({
         marginLeft: 8,
         fontSize: 20,
         fontWeight: 'bold',
-        color: '#AFAEAF'
+        color: '#AFAEAF',
     },
     seeMore: {
         fontSize: 20,
@@ -125,5 +120,4 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         overflowY: 'hidden',
     },
-
-});
+})

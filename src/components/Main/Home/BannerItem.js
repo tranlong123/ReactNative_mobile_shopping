@@ -3,9 +3,9 @@ import {
     ImageBackground,
     Text,
     TouchableOpacity,
-} from 'react-native';
-import { View } from 'react-native-web';
-export default function BanNerItem({ imageUrl, id }) {
+} from 'react-native'
+import { View } from 'react-native-web'
+export default function BanNerItem({ navigation, imageUrl, id }) {
     return (
         <TouchableOpacity
             onPress={() => {
@@ -17,14 +17,15 @@ export default function BanNerItem({ imageUrl, id }) {
                 style={styles.bannerImage}
                 source={{ uri: imageUrl }}
             >
-                <View style={{
-                    flex: 1,
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}>
-                </View>
-            </ImageBackground >
+                <View
+                    style={{
+                        flex: 1,
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                    }}
+                ></View>
+            </ImageBackground>
         </TouchableOpacity>
     )
 }
@@ -40,5 +41,4 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.2,
         shadowRadius: 3,
     },
-
 })
