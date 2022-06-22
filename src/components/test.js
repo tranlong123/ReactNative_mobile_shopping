@@ -10,7 +10,7 @@ function Test({ navigation }) {
 
     const handleLogin = async () => {
         checkLogin()
-        getOrder()
+        getCart()
     }
 
     const checkLogin = async () => {
@@ -25,10 +25,20 @@ function Test({ navigation }) {
         dispatch(login(loginResponse.data.data))
     }
 
-    const getOrder = async () => {
+    const getCart = async () => {
         const response = await helper.get(
             'http://localhost:3000/cms/v1/order/cart',
         )
+
+        // createCartIfNotExist
+        if (!response.data) {
+            const createCart = await helper.post(
+                'http://localhost:3000/cms/v1/order',
+            )
+            response = await helper.get(
+                'http://localhost:3000/cms/v1/order/cart',
+            )
+        }
         dispatch(setCart(response.data))
     }
 

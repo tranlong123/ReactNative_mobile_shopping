@@ -9,14 +9,22 @@ import {
     Button,
 } from 'react-native'
 import { FontAwesome5 } from '@expo/vector-icons'
+import { insertProduct } from '../../redux/action'
+import { useDispatch, useSelector } from 'react-redux'
 
 export default function Product({ navigation, route }) {
     const [product, setProduct] = useState({ productPhotos: [{ url: '' }] })
+    const dispatch = useDispatch()
+
     useEffect(() => {
         fetch(`http://localhost:3000/api/v1/product/${route.params.id}`)
             .then((res) => res.json())
             .then((data) => setProduct(data))
     }, [route.params.id])
+
+    const handleInsertProduct = () => {
+        dispatch(insertProduct(product))
+    }
 
     return (
         <View style={styles.container}>
@@ -28,7 +36,11 @@ export default function Product({ navigation, route }) {
                         }}
                         style={styles.backIcon}
                     >
-                        <FontAwesome5    name="chevron-left"    size={30}    color="#34B089" />
+                        <FontAwesome5
+                            name="chevron-left"
+                            size={30}
+                            color="#34B089"
+                        />
                     </TouchableOpacity>
                     <Text style={styles.titleStyle}>Product</Text>
                     <TouchableOpacity
@@ -58,9 +70,7 @@ export default function Product({ navigation, route }) {
                     <Button
                         title="Đưa vào giỏ hàng"
                         color="#34B089"
-                        onPress={() => {
-                            navigation.navigate('MAIN')
-                        }}
+                        onPress={handleInsertProduct}
                     />
                 </View>
             </View>
