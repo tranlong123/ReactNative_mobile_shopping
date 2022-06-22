@@ -11,6 +11,7 @@ const checkProductExist = (cart, product) => {
     cart.orderDetails.forEach((orderDetail, i) => {
         if (orderDetail.product.id == product.id) {
             index = i
+            return index
         }
     })
     return index
@@ -20,7 +21,7 @@ export function reducer(state = initialState, action) {
     const newState = { ...state }
 
     console.group(action.type)
-    console.log('OldState: ', state)
+    console.log('OldState: ', { ...state })
     console.log('Payload: ', action.payload)
 
     switch (action.type) {
@@ -31,7 +32,7 @@ export function reducer(state = initialState, action) {
             newState.user = {}
             newState.cart = {}
             break
-        case constant.INSERT_PRODUCT:
+        case constant.INSERT_PRODUCT: {
             const index = checkProductExist(newState.cart, action.payload)
             if (index == -1) {
                 newState.cart.orderDetails = [
@@ -42,8 +43,23 @@ export function reducer(state = initialState, action) {
                 newState.cart.orderDetails[index].quantityOrdered++
             }
             break
-        case constant.REMOVE_PRODUCT:
+        }
+        case constant.REMOVE_PRODUCT: {
+            const index = checkProductExist(newState.cart, action.payload)
+            console.log(index)
+            if (newState.cart.orderDetails[index].quantityOrdered > 1) {
+                newState.cart.orderDetails[index].quantityOrdered--
+                break
+            }
+        }
+        case constant.CLEAR_PRODUCT: {
+            const index = checkProductExist(newState.cart, action.payload)
+            console.log(index)
+            if (index > 0) {
+                newState.cart.orderDetails.splice(index, 1)
+            }
             break
+        }
         case constant.SET_CART:
             newState.cart = action.payload
             break

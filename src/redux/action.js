@@ -27,6 +27,13 @@ export function removeProduct(product) {
     }
 }
 
+export function clearProduct(product) {
+    return {
+        type: constant.CLEAR_PRODUCT,
+        payload: product,
+    }
+}
+
 export function setCart(cart) {
     return {
         type: constant.SET_CART,

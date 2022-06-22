@@ -29,7 +29,7 @@ export default function Cart({ navigation }) {
     // !important create rerender event
     useEffect(() => {
         console.log(count)
-        setCount((count) => count++)
+        setCount((count) => count + 1)
     }, [useIsFocused()])
 
     const orderDetails = useSelector((state) => state.cart).orderDetails
@@ -41,6 +41,7 @@ export default function Cart({ navigation }) {
                     <CartItem
                         navigation={navigation}
                         orderDetail={orderDetail}
+                        handleRerender={setCount}
                         key={index}
                     ></CartItem>
                 ))}

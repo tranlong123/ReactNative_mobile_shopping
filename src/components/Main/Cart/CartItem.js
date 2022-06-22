@@ -10,18 +10,26 @@ import {
     Alert,
 } from 'react-native'
 import { Fontisto } from '@expo/vector-icons'
+import { useDispatch, useSelector } from 'react-redux'
 import helper from '../../../api/helper'
+import {
+    removeProduct,
+    insertProduct,
+    clearProduct,
+} from '../../../redux/action'
 
-export default function CartItem({ navigation, orderDetail }) {
+export default function CartItem({ navigation, orderDetail, handleRerender }) {
     const [product, setProduct] = useState({ productPhotos: [{ url: '' }] })
+    const dispatch = useDispatch()
 
     useEffect(async () => {
         const response = helper.get(
             `http://localhost:3000/api/v1/product/${orderDetail.product.id}`,
         )
         setProduct((await response).data)
-    }, [])
+    }, [orderDetail])
 
+    console.log('CartItem re-render', product.id)
     return (
         <>
             <View style={styles.ProductContainer}>
@@ -35,13 +43,23 @@ export default function CartItem({ navigation, orderDetail }) {
                     <Text style={styles.txtName}>{product.name}</Text>
                     <Text style={styles.txtPrice}>{product.price} VND</Text>
                     <View style={styles.numberOfProduct}>
-                        <TouchableOpacity onPress={() => {}}>
+                        <TouchableOpacity
+                            onPress={() => {
+                                dispatch(insertProduct(product))
+                                handleRerender((count) => count + 1)
+                            }}
+                        >
                             <Text style={styles.quantityTxt}>+</Text>
                         </TouchableOpacity>
                         <Text style={styles.quantityTxt}>
                             {orderDetail.quantityOrdered}
                         </Text>
-                        <TouchableOpacity onPress={() => {}}>
+                        <TouchableOpacity
+                            onPress={() => {
+                                dispatch(removeProduct(product))
+                                handleRerender((count) => count + 1)
+                            }}
+                        >
                             <Text style={styles.quantityTxt}>-</Text>
                         </TouchableOpacity>
                     </View>
@@ -53,7 +71,13 @@ export default function CartItem({ navigation, orderDetail }) {
                         <Text style={styles.ShowDetail}>SHOW DETAIL</Text>
                     </TouchableOpacity>
                 </View>
-                <TouchableOpacity onPress={() => {}} style={styles.RemoveIcon}>
+                <TouchableOpacity
+                    onPress={() => {
+                        dispatch(clearProduct(product))
+                        handleRerender((count) => count + 1)
+                    }}
+                    style={styles.RemoveIcon}
+                >
                     <Fontisto
                         name="shopping-basket-remove"
                         size={24}
@@ -89,7 +113,7 @@ const styles = StyleSheet.create({
     txtName: {
         fontFamily: 'Avenir',
         color: '#BCBCBC',
-        fontSize: 20,
+        fontSize: 15,
         fontWeight: 400,
         marginTop: 4,
     },
