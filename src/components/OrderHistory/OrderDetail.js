@@ -1,32 +1,24 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
     View,
     Text,
     TouchableOpacity,
     StyleSheet,
     ScrollView,
-    Dimensions,
+    Image,
 } from 'react-native'
 import { FontAwesome5 } from '@expo/vector-icons'
-import OrderItem from './OrderItem'
-import { useIsFocused } from '@react-navigation/native'
 import helper from '../../api/helper'
+import OrderProduct from './OrderProduct'
 
-const deviceWidth = Dimensions.get('screen').width
-
-export default function OrderHistory({ navigation }) {
-    const [orders, setOrders] = useState([])
-    useEffect(async () => {
-        const response = await helper.get('http://localhost:3000/cms/v1/order')
-        setOrders(response.data.data)
-    }, [useIsFocused()])
-
+export default function OrderDetail({ navigation, route }) {
+    const orderDetails = route.params.order.orderDetails
     return (
         <View style={styles.container}>
             <View style={styles.header}>
                 <TouchableOpacity
                     onPress={() => {
-                        navigation.navigate('MAIN')
+                        navigation.goBack()
                     }}
                     style={styles.backIcon}
                 >
@@ -36,7 +28,7 @@ export default function OrderHistory({ navigation }) {
                         color="#34B089"
                     />
                 </TouchableOpacity>
-                <Text style={styles.titleStyle}>Order History</Text>
+                <Text style={styles.titleStyle}>Order details</Text>
                 <TouchableOpacity
                     onPress={() => {
                         navigation.navigate('MAIN')
@@ -47,13 +39,17 @@ export default function OrderHistory({ navigation }) {
                 </TouchableOpacity>
             </View>
             <ScrollView style={styles.wrapper}>
-                {orders.map((order, index) => (
-                    <OrderItem
-                        navigation={navigation}
-                        key={index}
-                        orderId={order.id}
-                    ></OrderItem>
-                ))}
+                {orderDetails.map(
+                    (item, index) =>
+                        item && (
+                            <OrderProduct
+                                key={index}
+                                navigation={navigation}
+                                productId={item.product.id}
+                                quantityOrdered={item.quantityOrdered}
+                            ></OrderProduct>
+                        ),
+                )}
             </ScrollView>
         </View>
     )
@@ -66,13 +62,10 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     header: {
-        backgroundColor: '#fff',
         height: 40,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        shadowOffset: { width: 2, height: 4 },
-        shadowOpacity: 0.2,
-        shadowRadius: 3,
+        backgroundColor: '#fff',
     },
     wrapper: {
         backgroundColor: '#fff',
@@ -89,23 +82,35 @@ const styles = StyleSheet.create({
         color: '#34B089',
         fontSize: 30,
     },
-    OrderContainer: {
-        height: deviceWidth / 3,
+    ProductContainer: {
         flexDirection: 'row',
-        paddingLeft: 10,
+        paddingLeft: 16,
         paddingBottom: 8,
         borderTopColor: '#F0F0F0',
         borderTopWidth: 1,
     },
-    orderRow: {
-        backgroundColor: '#FFF',
-        width: deviceWidth * 0.8,
-        margin: 10,
-        shadowOffset: { width: 2, height: 2 },
-        shadowColor: '#DFDFDF',
-        shadowOpacity: 0.2,
-        padding: 10,
-        borderRadius: 2,
-        justifyContent: 'space-around',
+    ProductInfo: {
+        justifyContent: 'space-between',
+        marginLeft: 16,
+    },
+    ProductImage: {
+        height: 120,
+        width: 90,
+    },
+    txtName: {
+        fontFamily: 'roboto',
+        color: '#BCBCBC',
+        fontSize: 20,
+        fontWeight: 400,
+        marginTop: 4,
+    },
+    txtPrice: {
+        fontFamily: 'roboto',
+        color: '#1a53ff',
+    },
+    txtDesc: {},
+
+    ShowDetail: {
+        color: '#1a53ff',
     },
 })

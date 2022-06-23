@@ -13,6 +13,7 @@ import Product from './Product/Product'
 import CateListItem from './Product/CateListItem'
 import Test from './test'
 import { store } from '../redux/store'
+import OrderDetail from './OrderHistory/OrderDetail'
 
 StatusBar.setHidden(true)
 
@@ -34,6 +35,7 @@ export default function Root() {
                 <Stack.Screen name="MAIN" component={Main} />
                 <Stack.Screen name="PRODUCT" component={Product} />
                 <Stack.Screen name="ORDERHISTORY" component={OrderHistory} />
+                <Stack.Screen name="ORDERDETAIL" component={OrderDetail} />
                 <Stack.Screen name="CHANGEINFO" component={ChangeInfo} />
                 <Stack.Screen name="LISTPRODUCT" component={ListProduct} />
                 <Stack.Screen name="LISTCATEITEM" component={CateListItem} />
