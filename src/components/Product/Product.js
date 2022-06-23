@@ -11,6 +11,7 @@ import {
 import { FontAwesome5 } from '@expo/vector-icons'
 import { insertProduct } from '../../redux/action'
 import { useDispatch, useSelector } from 'react-redux'
+import helper from '../../api/helper'
 
 export default function Product({ navigation, route }) {
     const [product, setProduct] = useState({ productPhotos: [{ url: '' }] })
@@ -64,7 +65,9 @@ export default function Product({ navigation, route }) {
                     ))}
                 </ScrollView>
                 <Text style={styles.ProductName}>{product.name}</Text>
-                <Text style={styles.ProductPrice}>{product.price} VND</Text>
+                <Text style={styles.ProductPrice}>
+                    {helper.formatPrice(product.price)} VND
+                </Text>
                 <Text style={styles.ProductDesc}>{product.description}</Text>
                 <View style={styles.BuyButton}>
                     <Button

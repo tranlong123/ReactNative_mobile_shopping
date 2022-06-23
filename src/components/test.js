@@ -30,15 +30,15 @@ function Test({ navigation }) {
             'http://localhost:3000/cms/v1/order/cart',
         )
 
-        // createCartIfNotExist
-        if (!response.data) {
-            const createCart = await helper.post(
-                'http://localhost:3000/cms/v1/order',
-            )
-            response = await helper.get(
-                'http://localhost:3000/cms/v1/order/cart',
-            )
-        }
+        // // createCartIfNotExist
+        // if (!response.data) {
+        //     const createCart = await helper.post(
+        //         'http://localhost:3000/cms/v1/order',
+        //     )
+        //     response = await helper.get(
+        //         'http://localhost:3000/cms/v1/order/cart',
+        //     )
+        // }
         dispatch(setCart(response.data))
     }
 

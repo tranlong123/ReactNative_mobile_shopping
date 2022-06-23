@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
+import helper from '../../../api/helper'
 export default function SearchProduct({ navigation, item }) {
     const [product, setProduct] = useState({ productPhotos: [{ url: '' }] })
     useEffect(() => {
@@ -21,7 +22,9 @@ export default function SearchProduct({ navigation, item }) {
                 source={{ uri: product.productPhotos[0].url }}
             />
             <Text style={styles.productName}>{product.name}</Text>
-            <Text style={styles.productPrice}>{product.price}</Text>
+            <Text style={styles.productPrice}>
+                {helper.formatPrice(product.price)} VND
+            </Text>
         </TouchableOpacity>
     )
 }

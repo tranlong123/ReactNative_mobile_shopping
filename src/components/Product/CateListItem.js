@@ -8,6 +8,7 @@ import {
     Image,
 } from 'react-native'
 import { FontAwesome5 } from '@expo/vector-icons'
+import helper from '../../api/helper'
 
 export default function CateListItem({ navigation, route }) {
     const [CateProducts, setCateProducts] = useState([])
@@ -53,7 +54,7 @@ export default function CateListItem({ navigation, route }) {
                                         {item.name}
                                     </Text>
                                     <Text style={styles.txtPrice}>
-                                        {item.price} VND
+                                        {helper.formatPrice(item.price)} VND
                                     </Text>
                                     <Text style={styles.txtDesc}>
                                         {' '}

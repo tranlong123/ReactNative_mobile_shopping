@@ -10,12 +10,15 @@ import {
     Alert,
 } from 'react-native'
 import { useIsFocused } from '@react-navigation/native'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import CartItem from './CartItem'
+import helper from '../../../api/helper'
+import { setCart } from '../../../redux/action'
 
 export default function Cart({ navigation }) {
     const [count, setCount] = useState(0)
+    const dispatch = useDispatch()
     const createAlert = () =>
         Alert.alert('Notice', 'Buy now?', [
             {
@@ -32,27 +35,70 @@ export default function Cart({ navigation }) {
         setCount((count) => count + 1)
     }, [useIsFocused()])
 
-    const orderDetails = useSelector((state) => state.cart).orderDetails
+    const cart = useSelector((state) => state.cart)
+    const orderDetails = cart.orderDetails
+
+    async function handleBuyCart() {
+        // pre-processing data
+        const cartId = cart.id
+        const orders = orderDetails.map((orderDetail) => ({
+            quantityOrdered: orderDetail.quantityOrdered,
+            productId: orderDetail.product.id,
+        }))
+        console.log(cartId, orders)
+
+        // call api
+        const buyResult = await helper.put(
+            'http://localhost:3000/cms/v1/order/' + cartId,
+            { status: 'Ordered', orders },
+        )
+        console.log(buyResult)
+
+        navigation.navigate('ORDERHISTORY')
+
+        // get new cart
+        const response = await helper.get(
+            'http://localhost:3000/cms/v1/order/cart',
+        )
+        dispatch(setCart(response.data))
+    }
+
+    const calculateTotal = () => {
+        let total = 0
+        orderDetails.forEach((orderDetail) => {
+            total += orderDetail.quantityOrdered * orderDetail.product.price
+        })
+        return helper.formatPrice(total)
+    }
 
     return (
         <View style={styles.container}>
             <ScrollView style={styles.wrapper}>
-                {orderDetails.map((orderDetail, index) => (
-                    <CartItem
-                        navigation={navigation}
-                        orderDetail={orderDetail}
-                        handleRerender={setCount}
-                        key={index}
-                    ></CartItem>
-                ))}
+                {!orderDetails[0] ? (
+                    <Text style={styles.emptyCartMessages}>Giỏ hàng trống</Text>
+                ) : (
+                    orderDetails.map((orderDetail, index) => (
+                        <CartItem
+                            navigation={navigation}
+                            orderDetail={orderDetail}
+                            handleRerender={setCount}
+                            key={index}
+                        ></CartItem>
+                    ))
+                )}
             </ScrollView>
             <View style={styles.BuyButton}>
+                <View style={styles.totalArea}>
+                    <Text style={styles.totalTxt}>Tổng tiền</Text>
+                    <Text style={styles.totalTxt}>{calculateTotal()} VND</Text>
+                </View>
                 <Button
                     title="Buy now"
                     color="#34B089"
                     onPress={() => {
-                        createAlert()
+                        handleBuyCart()
                     }}
+                    disabled={orderDetails[0] ? false : true}
                 />
             </View>
         </View>
@@ -81,5 +127,20 @@ const styles = StyleSheet.create({
     },
     BuyButton: {
         padding: 10,
+    },
+    emptyCartMessages: {
+        textAlign: 'center',
+        padding: 10,
+        fontSize: 30,
+        color: '#333',
+    },
+    totalArea: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        padding: 4,
+    },
+    totalTxt: {
+        fontSize: 20,
+        color: '#333',
     },
 })

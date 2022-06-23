@@ -29,7 +29,6 @@ export default function CartItem({ navigation, orderDetail, handleRerender }) {
         setProduct((await response).data)
     }, [orderDetail])
 
-    console.log('CartItem re-render', product.id)
     return (
         <>
             <View style={styles.ProductContainer}>
@@ -41,7 +40,9 @@ export default function CartItem({ navigation, orderDetail, handleRerender }) {
                 />
                 <View style={styles.ProductInfo}>
                     <Text style={styles.txtName}>{product.name}</Text>
-                    <Text style={styles.txtPrice}>{product.price} VND</Text>
+                    <Text style={styles.txtPrice}>
+                        {helper.formatPrice(product.price)} VND
+                    </Text>
                     <View style={styles.numberOfProduct}>
                         <TouchableOpacity
                             onPress={() => {

@@ -7,6 +7,7 @@ import {
     TouchableOpacity,
 } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
+import helper from '../../../api/helper'
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
@@ -31,6 +32,11 @@ export default function Contact({ navigation }) {
     //         .then((res) => res.json())
     //         .then((data) => setUserInfo(data.data))
     // }, [])
+
+    const handleLogout = async () => {
+        const response = await helper.post('http://localhost:3000/logout')
+        navigation.navigate('AUTHENTICATION')
+    }
 
     return (
         <View style={styles.screenContainer}>
@@ -105,11 +111,7 @@ export default function Contact({ navigation }) {
                     <ProfileItem icon="headphones" name="Hỗ trợ" />
                 </TouchableOpacity>
 
-                <TouchableOpacity
-                    onPress={() => {
-                        navigation.navigate('AUTHENTICATION')
-                    }}
-                >
+                <TouchableOpacity onPress={handleLogout}>
                     <ProfileItem icon="logout" name="Đăng xuất" />
                 </TouchableOpacity>
             </View>
