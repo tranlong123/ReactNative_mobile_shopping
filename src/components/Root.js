@@ -12,6 +12,8 @@ import ListProduct from './Product/ListProduct'
 import Product from './Product/Product'
 import CateListItem from './Product/CateListItem'
 import Test from './test'
+import ProductFilter from './Main/Home/ProductFilter'
+
 import { store } from '../redux/store'
 
 StatusBar.setHidden(true)
@@ -38,6 +40,7 @@ export default function Root() {
                 <Stack.Screen name="LISTPRODUCT" component={ListProduct} />
                 <Stack.Screen name="LISTCATEITEM" component={CateListItem} />
                 <Stack.Screen name="TEST" component={Test} />
+                <Stack.Screen name="PRODUCTFILTE" component={ProductFilter} />
             </Stack.Navigator>
         </NavigationContainer>
     )

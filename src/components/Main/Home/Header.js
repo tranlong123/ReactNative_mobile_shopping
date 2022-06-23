@@ -1,11 +1,10 @@
 import {
   StyleSheet,
   View,
-  TextInput
+  TextInput,
+  TouchableOpacity
 } from 'react-native'
-import {
-  Fontisto,
-} from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 
 export default function Header({ navigation }) {
   return (
@@ -15,9 +14,14 @@ export default function Header({ navigation }) {
           style={styles.inputContainer}
           placeholder="What do you want to buy?"
         />
-        <View style={styles.Shop_bag_Container}>
-          <Fontisto name="shopping-bag-1" size={24} color="#fff" />
-        </View>
+        <TouchableOpacity
+          style={styles.Shop_bag_Container}
+          onPress={() => {
+            navigation.navigate('PRODUCTFILTE')
+        }}
+        >
+          <Entypo name="grid" size={24} color="#fff" />
+        </TouchableOpacity>
       </View>
     </>
   )

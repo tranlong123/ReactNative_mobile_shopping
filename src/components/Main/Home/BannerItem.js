@@ -3,8 +3,8 @@ import {
     ImageBackground,
     Text,
     TouchableOpacity,
+    View
 } from 'react-native'
-import { View } from 'react-native-web'
 export default function BanNerItem({ navigation, imageUrl, id }) {
     return (
         <TouchableOpacity

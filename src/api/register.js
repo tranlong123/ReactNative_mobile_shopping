@@ -1,5 +1,5 @@
 const register =( username , email, password ) =>{
-    fetch('http://localhost:3000/register',
+    return fetch('http://localhost:3000/register',
     {
         method: 'POST',
         headers: {
@@ -7,7 +7,5 @@ const register =( username , email, password ) =>{
         },
         body: JSON.stringify({username, email, password})
     })
-    .then(res => res.text())
 }
-
-module.exports = register;
+export default register;
