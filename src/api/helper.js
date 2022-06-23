@@ -24,6 +24,9 @@ const helper = {
             ? num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
             : '0'
     },
+    formatDate(date) {
+        return date ? date : ''
+    },
 }
 
 export default helper

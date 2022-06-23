@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import {
     View,
     Text,
@@ -8,65 +8,58 @@ import {
     Dimensions,
 } from 'react-native'
 import { FontAwesome5 } from '@expo/vector-icons'
+import { useIsFocused } from '@react-navigation/native'
+import helper from '../../api/helper'
 
 const deviceWidth = Dimensions.get('screen').width
 
-export default function OrderItem({ navigation }) {
+export default function OrderItem({ navigation, orderId }) {
+    const [order, setOrder] = useState({})
+    useEffect(async () => {
+        const response = await helper.get(
+            'http://localhost:3000/cms/v1/order/' + orderId,
+        )
+        setOrder(response.data)
+    }, [useIsFocused()])
+
+    console.log('order', order)
+
+    const calculateTotal = () => {
+        if (!order?.orderDetails) return 0
+        let total = 0
+        order.orderDetails.forEach((orderDetail) => {
+            total += orderDetail.quantityOrdered * orderDetail.product.price
+        })
+        return helper.formatPrice(total)
+    }
+
     return (
-        <View style={styles.OrderContainer}>
-            <View style={styles.orderRow}>
-                <View
-                    style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                    }}
-                >
-                    <Text style={{ color: '#9A9A9A', fontWeight: 'bold' }}>
-                        Order id:
-                    </Text>
-                    <Text style={{ color: '#2ABB9C' }}>ORD</Text>
-                </View>
-                <View
-                    style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                    }}
-                >
-                    <Text style={{ color: '#9A9A9A', fontWeight: 'bold' }}>
-                        OrderTime:
-                    </Text>
-                    <Text style={{ color: '#C21C70' }}>
-                        2022-04-24 00:00:00
-                    </Text>
-                </View>
-                <View
-                    style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                    }}
-                >
-                    <Text style={{ color: '#9A9A9A', fontWeight: 'bold' }}>
-                        Product:
-                    </Text>
-                    <Text style={{ color: '#2ABB9C' }}>
-                        Quần Shorts Nam I7SHP513I
-                    </Text>
-                </View>
-                <View
-                    style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                    }}
-                >
-                    <Text style={{ color: '#9A9A9A', fontWeight: 'bold' }}>
-                        quantity ordered:
-                    </Text>
-                    <Text style={{ color: '#C21C70', fontWeight: 'bold' }}>
-                        1
-                    </Text>
+        <TouchableOpacity
+            onPress={() => {
+                navigation.navigate('ORDERDETAIL', { order: order })
+            }}
+        >
+            <View style={styles.OrderContainer}>
+                <View style={styles.orderRow}>
+                    <View style={styles.rowBetween}>
+                        <Text style={styles.titleTxt}>Order id:</Text>
+                        <Text style={{ color: '#2ABB9C' }}>{order.id}</Text>
+                    </View>
+                    <View style={styles.rowBetween}>
+                        <Text style={styles.titleTxt}>OrderTime:</Text>
+                        <Text style={{ color: '#C21C70' }}>
+                            {helper.formatDate(order.order_date)}
+                        </Text>
+                    </View>
+                    <View style={styles.rowBetween}>
+                        <Text style={styles.titleTxt}>Total: </Text>
+                        <Text style={{ color: '#C21C70', fontWeight: 'bold' }}>
+                            {calculateTotal()} VND
+                        </Text>
+                    </View>
                 </View>
             </View>
-        </View>
+        </TouchableOpacity>
     )
 }
 
@@ -119,4 +112,9 @@ const styles = StyleSheet.create({
         borderRadius: 2,
         justifyContent: 'space-around',
     },
+    rowBetween: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    titleTxt: { color: '#9A9A9A', fontWeight: 'bold' },
 })
