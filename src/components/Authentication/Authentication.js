@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import {
     View, Text, TouchableOpacity,
     StyleSheet,
@@ -8,6 +8,12 @@ import {
 import { FontAwesome5 } from '@expo/vector-icons';
 import axios from 'axios';
 import register from '../../api/register';
+import { useDispatch, useSelector } from 'react-redux'
+import { setCart } from '../../redux/action';
+import { connect } from 'react-redux';
+import helper from '../../api/helper';
+
+
 
 const deviceWidth = Dimensions.get('screen').width;
 
@@ -18,8 +24,9 @@ export default class Authentication extends Component {
         super(props);
         this.state = {
             isSignIn: true,
-            email: '', password: '', check: false,
-            upUsername: '', upEmail: '', upPassword: '', rePassword: ''
+            email: '', password: '', check: false, withCredentials: true,
+            upUsername: '', upEmail: '', upPassword: '', rePassword: '',
+
         }
         this.gotoMain = this.gotoMain.bind(this)
         this.registerUser = this.registerUser.bind(this)
@@ -43,10 +50,19 @@ export default class Authentication extends Component {
 
     handleSignIn() {
         console.log(this.state.email, this.state.password)
-        axios.post('http://localhost:3000/login', this.state)
-            .then((res) => this.gotoMain(res))
+        this.checkLogin()
+        // const response = axios.get('http://localhost:3000/cms/v1/order/cart',)
+
+        
 
     }
+
+    checkLogin() {
+        axios.post('http://localhost:3000/login', this.state)
+            .then((res) => this.gotoMain(res))
+    }
+
+
 
     gotoMain(res) {
         if (res.data.msg == 'Login success') {
@@ -57,12 +73,12 @@ export default class Authentication extends Component {
         }
     }
 
-    registerUser(){
-        const { upUsername, upEmail, upPassword}= this.state;
-        register (upUsername, upEmail, upPassword)
-        .then(res=>{
-            console.log(res)
-        })
+    registerUser() {
+        const { upUsername, upEmail, upPassword } = this.state;
+        register(upUsername, upEmail, upPassword)
+            .then(res => {
+                console.log(res)
+            })
     }
 
     render() {
@@ -97,7 +113,7 @@ export default class Authentication extends Component {
                     placeholder="Enter your username"
                     onChange={(event) => {
                         this.setState({ upUsername: event.target.value })
-                    }}                
+                    }}
                 />
                 <TextInput
                     style={styles.InputStyle}

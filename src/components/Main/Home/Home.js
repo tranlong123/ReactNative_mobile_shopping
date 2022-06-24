@@ -30,7 +30,7 @@ export default function Home({ navigation }) {
 
     return (
         <ScrollView>
-            <Header />
+            <Header navigation={navigation}/>
             {/* Category */}
             <View style={styles.ListName}>
                 <Text style={styles.listNameText}>List of Categories</Text>

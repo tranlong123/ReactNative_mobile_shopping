@@ -12,6 +12,21 @@ function Test({ navigation }) {
         await checkLogin()
         await getCart()
     }
+    const getCart = async () => {
+        const response = await helper.get(
+            'http://localhost:3000/cms/v1/order/cart',
+        )
+        // // createCartIfNotExist
+        // if (!response.data) {
+        //     const createCart = await helper.post(
+        //         'http://localhost:3000/cms/v1/order',
+        //     )
+        //     response = await helper.get(
+        //         'http://localhost:3000/cms/v1/order/cart',
+        //     )
+        // }
+        dispatch(setCart(response.data))
+    }
 
     const checkLogin = async () => {
         const payload = {
@@ -23,23 +38,6 @@ function Test({ navigation }) {
             payload,
         )
         dispatch(login(loginResponse.data.data))
-    }
-
-    const getCart = async () => {
-        const response = await helper.get(
-            'http://localhost:3000/cms/v1/order/cart',
-        )
-
-        // // createCartIfNotExist
-        // if (!response.data) {
-        //     const createCart = await helper.post(
-        //         'http://localhost:3000/cms/v1/order',
-        //     )
-        //     response = await helper.get(
-        //         'http://localhost:3000/cms/v1/order/cart',
-        //     )
-        // }
-        dispatch(setCart(response.data))
     }
 
     return (

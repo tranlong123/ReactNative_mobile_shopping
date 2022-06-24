@@ -6,7 +6,7 @@ import {
 } from 'react-native'
 import { Entypo } from '@expo/vector-icons';
 
-export default function Header({ navigation }) {
+export default function Header({navigation}) {
   return (
     <>
       <View style={styles.headerContainer}>

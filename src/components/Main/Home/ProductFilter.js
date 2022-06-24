@@ -11,12 +11,28 @@ import { FontAwesome5 } from '@expo/vector-icons'
 import helper from '../../../api/helper'
 
 export default function ProductFilter({ navigation }) {
+    const [id, setId] = useState('')
+
+    const [checkM, setCheckM] = useState(false)
+    const [checkS, setCheckS] = useState(false)
+    const [checkL, setCheckL] = useState(false)
+    const [checkXL, setCheckXL] = useState(false)
+    const [checkXXL, setCheckXXL] = useState(false)
+
     const [products, setProducts] = useState([])
     useEffect(() => {
         fetch('http://localhost:3000/api/v1/product')
             .then((res) => res.json())
             .then((data) => setProducts(data.data))
     }, [])
+
+    const click = (check) => {
+        if (check == true) {
+            check = false
+        } else {
+            check = true
+        }
+    }
 
     return (
         <View style={styles.container}>
@@ -33,10 +49,78 @@ export default function ProductFilter({ navigation }) {
                         color="#34B089"
                     />
                 </TouchableOpacity>
-                <Text style={styles.titleStyle}>Product List</Text>
+                <Text style={styles.titleStyle}>Product Filter</Text>
                 <View style={{ width: 30 }}></View>
             </View>
-            {/* <ScrollView style={styles.wrapper}>
+            <View style={styles.filter}>
+                <Text style={{padding: 5}} > Choose size </Text>
+                <TouchableOpacity
+                    style={!checkM ? styles.sizeFilter : styles.sizeFilterInClick}
+                    onPress={() => {
+                        if (checkM == true) {
+                            setCheckM(false)
+                        } else {
+                            setCheckM(true)
+                        }
+                        setId('M')
+                    }}
+                >
+                    <Text>M</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={!checkS ? styles.sizeFilter : styles.sizeFilterInClick}
+                    onPress={() => {
+                        if (checkS == true) {
+                            setCheckS(false)
+                        } else {
+                            setCheckS(true)
+                        }
+                        setId('S')
+                    }}
+                >
+                    <Text>S</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={!checkL ? styles.sizeFilter : styles.sizeFilterInClick}
+                    onPress={() => {
+                        if (checkL == true) {
+                            setCheckL(false)
+                        } else {
+                            setCheckL(true)
+                        }
+                        setId('L')
+                    }}
+                >
+                    <Text>L</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={!checkXL ? styles.sizeFilter : styles.sizeFilterInClick}
+                    onPress={() => {
+                        if (checkXL == true) {
+                            setCheckXL(false)
+                        } else {
+                            setCheckXL(true)
+                        }
+                        setId('XL')
+                    }}
+                >
+                    <Text>XL</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={!checkXXL ? styles.sizeFilter : styles.sizeFilterInClick}
+                    onPress={() => {
+                        if (checkXXL == true) {
+                            setCheckXXL(false)
+                        } else {
+                            setCheckXXL(true)
+                        }
+                        setId('XXL')
+                    }}
+                >
+                    <Text>XXL</Text>
+                </TouchableOpacity>
+            </View>
+            <ScrollView style={styles.wrapper}>
                 {products.map(
                     (item, index) =>
                         item && (
@@ -73,7 +157,7 @@ export default function ProductFilter({ navigation }) {
                             </View>
                         ),
                 )}
-            </ScrollView> */}
+            </ScrollView>
         </View>
     )
 }
@@ -89,6 +173,29 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         backgroundColor: '#fff',
+    },
+    filter: {
+        backgroundColor: '#fff',
+        flexDirection: 'row',
+        padding: 10,
+
+    },
+
+    sizeFilter: {
+        padding: 5,
+        width:40,
+        height:30,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#34B089'
+    },
+    sizeFilterInClick: {
+        padding: 5,
+        width:40,
+        height:30,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#ff0000'
     },
     wrapper: {
         backgroundColor: '#fff',
