@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { useState, useEffect } from 'react'
 import {
     View, Text, TouchableOpacity,
     StyleSheet,
@@ -6,181 +6,177 @@ import {
     TextInput,
 } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
-import axios from 'axios';
-import register from '../../api/register';
+import { login, setCart } from '../../redux/action';
 import { useDispatch, useSelector } from 'react-redux'
-import { setCart } from '../../redux/action';
-import { connect } from 'react-redux';
+import axios from 'axios'
 import helper from '../../api/helper';
-
-
 
 const deviceWidth = Dimensions.get('screen').width;
 
+function Test({ navigation }) {
+    const dispatch = useDispatch()
 
-export default class Authentication extends Component {
+    const [isSignIn, setIsSignIn] = useState(true)
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [check, setCheck] = useState(false)
+    const [upUsername, setUpUsername] = useState('')
+    const [upEmail, setUpEmail] = useState('')
+    const [upPassword, setUpPassword] = useState('')
+    const [rePassword, setRePassword] = useState('')
 
-    constructor(props, navigation) {
-        super(props);
-        this.state = {
-            isSignIn: true,
-            email: '', password: '', check: false, withCredentials: true,
-            upUsername: '', upEmail: '', upPassword: '', rePassword: '',
-
-        }
-        this.gotoMain = this.gotoMain.bind(this)
-        this.registerUser = this.registerUser.bind(this)
+    const signIn = () => {
+        setIsSignIn(true)
     }
 
-    isFalse() {
-        this.setState({ check: false })
+    const signUp = () => {
+        setIsSignIn(false)
     }
 
-    isTrue() {
-        this.setState({ check: true })
+    const isFalse = () => {
+        setCheck(false)
     }
 
-    signIn() {
-        this.setState({ isSignIn: true })
+    const isTrue = () => {
+        setCheck(true)
     }
 
-    signUp() {
-        this.setState({ isSignIn: false })
+    const handleLogin = async () => {
+        await checkLogin()
+        await getCart()
+    }
+    const getCart = async () => {
+        const response = await helper.get(
+            'http://localhost:3000/cms/v1/order/cart',
+        )
+        dispatch(setCart(response.data))
     }
 
-    handleSignIn() {
-        console.log(this.state.email, this.state.password)
-        this.checkLogin()
-        // const response = axios.get('http://localhost:3000/cms/v1/order/cart',)
-
-        
-
+    const checkLogin = async () => {
+        const loginResponse = await helper.post(
+            'http://localhost:3000/login',
+            {email,password},
+        )
+        gotoMain(loginResponse)
     }
 
-    checkLogin() {
-        axios.post('http://localhost:3000/login', this.state)
-            .then((res) => this.gotoMain(res))
-    }
-
-
-
-    gotoMain(res) {
+    const gotoMain = (res) => {
         if (res.data.msg == 'Login success') {
-            this.props.navigation.navigate('MAIN')
-            this.isFalse()
+            dispatch(login(res.data.data))
+            navigation.navigate('MAIN')
+            isFalse()
         } else {
-            this.isTrue()
+            isTrue()
         }
     }
 
-    registerUser() {
-        const { upUsername, upEmail, upPassword } = this.state;
+    const handleSignIn = () => {
+        axios.post('http://localhost:3000/login',{email,password})
+            .then((res) =>gotoMain(res))
+        getCart()
+    }
+
+    const registerUser = () => {
+        // const { upUsername, upEmail, upPassword } = { upUsername, upEmail, upPassword }
         register(upUsername, upEmail, upPassword)
             .then(res => {
                 console.log(res)
             })
     }
 
-    render() {
-        const signInJSX = (
-            <View>
-                <TextInput style={styles.InputStyle} placeholder="Enter your email"
-                    onChange={(event) => {
-                        this.setState({ email: event.target.value })
-                    }}
-                />
-                <TextInput secureTextEntry style={styles.InputStyle} placeholder="Enter your password"
-                    onChange={(event) => {
-                        this.setState({ password: event.target.value })
-                    }}
-                />
+    const signInJSX = (
+        <View>
+            <TextInput style={styles.InputStyle} placeholder="Enter your email"
+                onChange={(event) => {
+                    setEmail(event.target.value)
+                }}
+            />
+            <TextInput secureTextEntry style={styles.InputStyle} placeholder="Enter your password"
+                onChange={(event) => {
+                    setPassword(event.target.value)
+                }}
+            />
+            <TouchableOpacity
+                onPress={() => {
+                    handleLogin()
+                }}
+                style={styles.ButtonStyle}
+            >
+                <Text style={styles.ButtonText}>SIGN IN NOW</Text>
+            </TouchableOpacity>
+            <Text style={!check ? styles.trueCheck : styles.falseCheck}>email or password incorrect</Text>
+        </View>
+    );
+    const signUpJSX = (
+        <View>
+            <TextInput
+                style={styles.InputStyle}
+                placeholder="Enter your username"
+                onChange={(event) => {
+                    setUpUsername(event.target.value)
+                }}
+            />
+            <TextInput
+                style={styles.InputStyle}
+                placeholder="Enter your email"
+                onChange={(event) => {
+                    setUpEmail({ upEmail: event.target.value })
+                }}
+            />
+            <TextInput
+                secureTextEntry
+                style={styles.InputStyle}
+                placeholder="Enter your password"
+                onChange={(event) => {
+                    setUpPassword(event.target.value)
+                }}
+            />
+            <TextInput
+                secureTextEntry
+                style={styles.InputStyle}
+                placeholder="Re-enter your password"
+                onChange={(event) => {
+                    setRePassword(event.target.value)
+                }}
+            />
+            <TouchableOpacity
+                style={styles.ButtonStyle}
+                onPress={registerUser}
+            >
+                <Text style={styles.ButtonText}>SIGN UP NOW</Text>
+            </TouchableOpacity>
+        </View>
+    );
+
+
+    const mainJSX = isSignIn ? signInJSX : signUpJSX;
+
+    return (
+        <View style={styles.container}>
+            <View style={styles.iconStyle} >
+                <FontAwesome5 name="shopify" size={90} color="#fff" />
+            </View>
+
+            {mainJSX}
+
+            <View style={styles.controlStyle}>
                 <TouchableOpacity
-                    onPress={() => {
-                        this.handleSignIn()
-                    }
-                    }
-                    style={styles.ButtonStyle}
+                    style={styles.SignInStyle}
+                    onPress={signIn}
                 >
-                    <Text style={styles.ButtonText}>SIGN IN NOW</Text>
+                    <Text style={isSignIn ? styles.activeStyle : styles.inactiveStyle}>SIGN IN</Text>
                 </TouchableOpacity>
-                <Text style={!this.state.check ? styles.trueCheck : styles.falseCheck}>email or password incorrect</Text>
-            </View>
-        );
-        const signUpJSX = (
-            <View>
-                <TextInput
-                    style={styles.InputStyle}
-                    placeholder="Enter your username"
-                    onChange={(event) => {
-                        this.setState({ upUsername: event.target.value })
-                    }}
-                />
-                <TextInput
-                    style={styles.InputStyle}
-                    placeholder="Enter your email"
-                    onChange={(event) => {
-                        this.setState({ upEmail: event.target.value })
-                    }}
-                />
-                <TextInput
-                    secureTextEntry
-                    style={styles.InputStyle}
-                    placeholder="Enter your password"
-                    onChange={(event) => {
-                        this.setState({ upPassword: event.target.value })
-                    }}
-                />
-                <TextInput
-                    secureTextEntry
-                    style={styles.InputStyle}
-                    placeholder="Re-enter your password"
-                    onChange={(event) => {
-                        this.setState({ rePassword: event.target.value })
-                    }}
-                />
                 <TouchableOpacity
-                    style={styles.ButtonStyle}
-                    onPress={this.registerUser}
+                    style={styles.SignUpStyle}
+                    onPress={signUp}
                 >
-                    <Text style={styles.ButtonText}>SIGN UP NOW</Text>
+                    <Text style={!isSignIn ? styles.activeStyle : styles.inactiveStyle}>SIGN UP</Text>
                 </TouchableOpacity>
             </View>
-        );
 
-        const { isSignIn } = this.state;
-        const mainJSX = this.state.isSignIn ? signInJSX : signUpJSX;
-
-        return (
-            <View style={styles.container}>
-
-                <View style={styles.iconStyle} >
-                    <FontAwesome5 name="shopify" size={90} color="#fff" />
-                </View>
-
-                {mainJSX}
-
-                <View style={styles.controlStyle}>
-                    <TouchableOpacity
-                        style={styles.SignInStyle}
-                        onPress={this.signIn.bind(this)}
-                    >
-                        <Text style={isSignIn ? styles.activeStyle : styles.inactiveStyle}>SIGN IN</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={styles.SignUpStyle}
-                        onPress={this.signUp.bind(this)}
-                    >
-                        <Text style={!isSignIn ? styles.activeStyle : styles.inactiveStyle}>SIGN UP</Text>
-                    </TouchableOpacity>
-                </View>
-
-            </View>
-
-
-        );
-    };
-};
-
+        </View>
+    )
+}
 
 const styles = StyleSheet.create({
 
@@ -260,3 +256,5 @@ const styles = StyleSheet.create({
         color: '#3EBA77',
     }
 })
+
+export default Test

@@ -9,9 +9,11 @@ import {
 } from 'react-native'
 import { FontAwesome5 } from '@expo/vector-icons'
 import helper from '../../../api/helper'
+import { AntDesign } from '@expo/vector-icons';
 
 export default function ProductFilter({ navigation }) {
     const [id, setId] = useState('')
+    const [filterPrice, setFilterPrice] = useState(0)
 
     const [checkM, setCheckM] = useState(false)
     const [checkS, setCheckS] = useState(false)
@@ -53,7 +55,7 @@ export default function ProductFilter({ navigation }) {
                 <View style={{ width: 30 }}></View>
             </View>
             <View style={styles.filter}>
-                <Text style={{padding: 5}} > Choose size </Text>
+                <Text style={{ paddingRight: 10 }} > Choose size </Text>
                 <TouchableOpacity
                     style={!checkM ? styles.sizeFilter : styles.sizeFilterInClick}
                     onPress={() => {
@@ -120,6 +122,59 @@ export default function ProductFilter({ navigation }) {
                     <Text>XXL</Text>
                 </TouchableOpacity>
             </View>
+            <View style={styles.filter}>
+                <Text style={{ paddingRight: 2 }}  > Choose price </Text>
+                <TouchableOpacity
+                    style={filterPrice == 1 ? styles.red : styles.green}
+                    onPress={() => {
+                        if (filterPrice == 1) {
+                            setFilterPrice(0)
+                        }
+                        else {
+                            setFilterPrice(1)
+                        }
+                    }}
+                >
+                    <Text> <AntDesign name="left" size={14} color="black" /> 300K</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    style={filterPrice == 2 ? styles.red : styles.green}
+                    onPress={() => {
+                        if (filterPrice == 2) {
+                            setFilterPrice(0)
+                        } else {
+                            setFilterPrice(2)
+                        }
+                    }}
+                >
+                    <Text>300K-400K</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={filterPrice == 3 ? styles.red : styles.green}
+                    onPress={() => {
+                        if (filterPrice == 3) {
+                            setFilterPrice(0)
+                        } else {
+                            setFilterPrice(3)
+                        }
+                    }}
+                >
+                    <Text> <AntDesign name="right" size={14} color="black" /> 400K</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.filter}>
+            <TouchableOpacity
+                style={styles.button}
+                onPress={() => {
+
+                }}
+            >
+                <Text>START FILTER</Text>
+            </TouchableOpacity>
+            </View>
+
+
             <ScrollView style={styles.wrapper}>
                 {products.map(
                     (item, index) =>
@@ -177,25 +232,47 @@ const styles = StyleSheet.create({
     filter: {
         backgroundColor: '#fff',
         flexDirection: 'row',
-        padding: 10,
+        padding: 5,
 
     },
 
     sizeFilter: {
         padding: 5,
-        width:40,
-        height:30,
+        width: 40,
+        height: 30,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#34B089'
     },
     sizeFilterInClick: {
         padding: 5,
-        width:40,
-        height:30,
+        width: 40,
+        height: 30,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#ff0000'
+    },
+    green: {
+        padding: 5,
+        width: 80,
+        height: 30,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#34B089'
+    },
+    red: {
+        padding: 5,
+        width: 80,
+        height: 30,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#ff0000'
+    },
+    button:{
+        padding: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#34B089'
     },
     wrapper: {
         backgroundColor: '#fff',
