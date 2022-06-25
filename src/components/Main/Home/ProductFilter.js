@@ -64,7 +64,6 @@ export default function ProductFilter({ navigation }) {
                         } else {
                             setCheckM(true)
                         }
-                        setId('M')
                     }}
                 >
                     <Text>M</Text>
@@ -77,7 +76,6 @@ export default function ProductFilter({ navigation }) {
                         } else {
                             setCheckS(true)
                         }
-                        setId('S')
                     }}
                 >
                     <Text>S</Text>
@@ -90,7 +88,6 @@ export default function ProductFilter({ navigation }) {
                         } else {
                             setCheckL(true)
                         }
-                        setId('L')
                     }}
                 >
                     <Text>L</Text>
@@ -103,7 +100,6 @@ export default function ProductFilter({ navigation }) {
                         } else {
                             setCheckXL(true)
                         }
-                        setId('XL')
                     }}
                 >
                     <Text>XL</Text>
@@ -116,7 +112,6 @@ export default function ProductFilter({ navigation }) {
                         } else {
                             setCheckXXL(true)
                         }
-                        setId('XXL')
                     }}
                 >
                     <Text>XXL</Text>

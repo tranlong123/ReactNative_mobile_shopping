@@ -30,15 +30,10 @@ export default function Home({ navigation }) {
             .then((data) => setBannerList(data.data))
     }, [])
 
-    // const limitArray = () => {
-    //     setProducts.slice.Map(0, 5)
-    // }
-
-
-
+    
     return (
         <ScrollView>
-            {/* {limitArray} */}
+
 
             <Header navigation={navigation} />
             {/* Category */}
