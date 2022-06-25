@@ -1,24 +1,29 @@
 import {
   StyleSheet,
   View,
-  TextInput,
+  Text,
   TouchableOpacity
 } from 'react-native'
-import { FontAwesome5 } from '@expo/vector-icons'; 
+import { FontAwesome5 } from '@expo/vector-icons';
 
-export default function Header({navigation}) {
+export default function Header({ navigation }) {
   return (
     <>
       <View style={styles.headerContainer}>
-        <TextInput
+        {/* <TextInput
           style={styles.inputContainer}
           placeholder="What do you want to buy?"
-        />
+        /> */}
+        <FontAwesome5 name="store" size={24} color="#fff" style={styles.icon} />
+        <View style={styles.inputContainer}>
+          <Text style={{ color: '#fff', fontSize: 24, fontFamily: 'roboto' }} >Clothing Store</Text>
+        </View>
+
         <TouchableOpacity
-          style={styles.Shop_bag_Container}
+          style={styles.shopIcon}
           onPress={() => {
             navigation.navigate('PRODUCTFILTE')
-        }}
+          }}
         >
           <FontAwesome5 name="list" size={24} color="#fff" />
         </TouchableOpacity>
@@ -38,18 +43,19 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     paddingLeft: 10,
     borderRadius: 5,
-    backgroundColor: '#fff',
     flex: 1,
     flexDirection: 'row',
+    justifyContent: 'center',
     alignItems: 'center',
   },
-  inputText: {
-    color: '#999999',
-    fontSize: 16,
-    marginLeft: 8,
-    fontWeight: '100%',
+
+  icon: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: 10,
   },
-  Shop_bag_Container: {
+
+  shopIcon: {
     paddingHorizontal: 20,
     alignItems: 'center',
     justifyContent: 'center',
