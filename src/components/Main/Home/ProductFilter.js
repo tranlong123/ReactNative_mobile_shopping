@@ -12,14 +12,21 @@ import helper from '../../../api/helper'
 import { AntDesign } from '@expo/vector-icons';
 
 export default function ProductFilter({ navigation }) {
-    const [id, setId] = useState('')
+
     const [filterPrice, setFilterPrice] = useState(0)
+    // 0:ko chọn ,1:<300,2:300-400,3:>400
 
     const [checkM, setCheckM] = useState(false)
     const [checkS, setCheckS] = useState(false)
     const [checkL, setCheckL] = useState(false)
     const [checkXL, setCheckXL] = useState(false)
     const [checkXXL, setCheckXXL] = useState(false)
+
+    const [checkMan, setCheckMan] = useState(false)
+    const [checkWoman, setCheckWoman] = useState(false)
+
+    const [checkSort, setCheckSort] = useState(0)
+    // 0:ko chọn, 1:thấp đến cao, 2:cao đến thấp
 
     const [products, setProducts] = useState([])
     useEffect(() => {
@@ -47,7 +54,7 @@ export default function ProductFilter({ navigation }) {
                 <View style={{ width: 30 }}></View>
             </View>
             <View style={styles.filter}>
-                <Text style={{ paddingRight: 10 }} > Choose size </Text>
+                <Text style={{ width: 90 }} > Choose size </Text>
                 <TouchableOpacity
                     style={!checkM ? styles.sizeFilter : styles.sizeFilterInClick}
                     onPress={() => {
@@ -110,7 +117,7 @@ export default function ProductFilter({ navigation }) {
                 </TouchableOpacity>
             </View>
             <View style={styles.filter}>
-                <Text style={{ paddingRight: 2 }}  > Choose price </Text>
+                <Text style={{ width: 90 }}  > Choose price </Text>
                 <TouchableOpacity
                     style={filterPrice == 1 ? styles.red : styles.green}
                     onPress={() => {
@@ -150,15 +157,72 @@ export default function ProductFilter({ navigation }) {
                     <Text> <AntDesign name="right" size={14} color="black" /> 400K</Text>
                 </TouchableOpacity>
             </View>
-            <View style={styles.filter}>
-            <TouchableOpacity
-                style={styles.button}
-                onPress={() => {
 
-                }}
-            >
-                <Text>START FILTER</Text>
-            </TouchableOpacity>
+            <View style={styles.filter}>
+                <Text style={{ width: 90 }} > User </Text>
+                <TouchableOpacity
+                    style={checkMan ? styles.userOnclick : styles.user}
+                    onPress={() => {
+                        if (checkMan == true) {
+                            setCheckMan(false)
+                        } else {
+                            setCheckMan(true)
+                        }
+                    }}
+                >
+                    <Text>Man</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={checkWoman ? styles.userOnclick : styles.user}
+                    onPress={() => {
+                        if (checkWoman == true) {
+                            setCheckWoman(false)
+                        } else {
+                            setCheckWoman(true)
+                        }
+                    }}
+                >
+                    <Text>Woman</Text>
+                </TouchableOpacity>
+            </View>
+
+            <View style={styles.filter}>
+                <Text style={{ width: 90 }} > Sort by price </Text>
+                <TouchableOpacity
+                    style={checkSort == 1 ? styles.buttonOnClick : styles.button}
+                    onPress={() => {
+                        if (checkSort == 1) {
+                            setCheckSort(0)
+                        } else {
+                            setCheckSort(1)
+                        }
+                    }}
+                >
+                    <Text>Low To High</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={checkSort == 2 ? styles.buttonOnClick : styles.button}
+                    onPress={() => {
+                        if (checkSort == 2) {
+                            setCheckSort(0)
+                        } else {
+                            setCheckSort(2)
+                        }
+                    }}
+                >
+                    <Text>High To Low</Text>
+                </TouchableOpacity>
+            </View>
+
+            <View style={styles.filter}>
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => {
+
+                    }}
+                >
+                    <Text>START FILTER</Text>
+                </TouchableOpacity>
             </View>
 
 
@@ -255,12 +319,33 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#ff0000'
     },
-    button:{
+    button: {
         padding: 5,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#34B089'
     },
+    buttonOnClick: {
+        padding: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#ff0000'
+    },
+    user: {
+        width: 60,
+        height: 30,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#34B089'
+    },
+    userOnclick: {
+        width: 60,
+        height: 30,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#ff0000'
+    },
+
     wrapper: {
         backgroundColor: '#fff',
         shadowOffset: { width: 2, height: 4 },
