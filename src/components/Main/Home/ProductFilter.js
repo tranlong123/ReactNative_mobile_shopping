@@ -8,7 +8,8 @@ import {
     Image,
 } from 'react-native'
 import { FontAwesome5 } from '@expo/vector-icons'
-import helper from '../../../api/helper'
+import helper from '../../../common/helper'
+import logger from '../../../common/logger'
 import { AntDesign } from '@expo/vector-icons'
 
 export default function ProductFilter({ navigation }) {
@@ -40,11 +41,11 @@ export default function ProductFilter({ navigation }) {
     }, [checkSort])
 
     const handleFilter = async () => {
-        console.log('Handle filter')
+        logger.log('Handle filter')
         const size = getSizes()
         const productLine = getProductLine()
         const { priceFrom, priceTo } = getPrice()
-        console.log(
+        logger.log(
             'productLine',
             productLine,
             'size',
@@ -54,7 +55,7 @@ export default function ProductFilter({ navigation }) {
             'priceTo',
             priceTo,
         )
-        console.log(products)
+        logger.log(products)
 
         const response = await helper.get(
             `http://localhost:3000/api/v1/product?productLine=${productLine}&size=${size}&priceFrom=${priceFrom}&priceTo=${priceTo}`,

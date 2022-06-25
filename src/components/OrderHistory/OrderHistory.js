@@ -10,7 +10,8 @@ import {
 import { FontAwesome5 } from '@expo/vector-icons'
 import OrderItem from './OrderItem'
 import { useIsFocused } from '@react-navigation/native'
-import helper from '../../api/helper'
+import helper from '../../common/helper'
+import logger from '../../common/logger'
 
 const deviceWidth = Dimensions.get('screen').width
 

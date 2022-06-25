@@ -13,7 +13,8 @@ import { useIsFocused } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux'
 
 import CartItem from './CartItem'
-import helper from '../../../api/helper'
+import helper from '../../../common/helper'
+import logger from '../../../common/logger'
 import { setCart } from '../../../redux/action'
 
 export default function Cart({ navigation }) {
@@ -23,15 +24,15 @@ export default function Cart({ navigation }) {
         Alert.alert('Notice', 'Buy now?', [
             {
                 text: 'Cancel',
-                onPress: () => console.log('Cancel Pressed'),
+                onPress: () => logger.log('Cancel Pressed'),
                 style: 'cancel',
             },
-            { text: 'OK', onPress: () => console.log('OK Pressed') },
+            { text: 'OK', onPress: () => logger.log('OK Pressed') },
         ])
 
     // !important create rerender event
     useEffect(() => {
-        console.log(count)
+        logger.log(count)
         setCount((count) => count + 1)
     }, [useIsFocused()])
 
@@ -45,14 +46,14 @@ export default function Cart({ navigation }) {
             quantityOrdered: orderDetail.quantityOrdered,
             productId: orderDetail.product.id,
         }))
-        console.log(cartId, orders)
+        logger.log(cartId, orders)
 
         // call api
         const buyResult = await helper.put(
             'http://localhost:3000/cms/v1/order/' + cartId,
             { status: 'Ordered', orders },
         )
-        console.log(buyResult)
+        logger.log(buyResult)
 
         navigation.navigate('ORDERHISTORY')
 

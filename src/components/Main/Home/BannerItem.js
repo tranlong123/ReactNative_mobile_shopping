@@ -3,14 +3,15 @@ import {
     ImageBackground,
     Text,
     TouchableOpacity,
-    View
+    View,
 } from 'react-native'
+import logger from '../../../common/logger'
 export default function BanNerItem({ navigation, imageUrl, id }) {
     return (
         <TouchableOpacity
             onPress={() => {
                 navigation.navigate('LISTCATEITEM', { id: id })
-                console.log(id)
+                logger.log(id)
             }}
         >
             <ImageBackground

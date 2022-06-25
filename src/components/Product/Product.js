@@ -11,10 +11,14 @@ import {
 import { FontAwesome5 } from '@expo/vector-icons'
 import { insertProduct } from '../../redux/action'
 import { useDispatch, useSelector } from 'react-redux'
-import helper from '../../api/helper'
+import helper from '../../common/helper'
+import logger from '../../common/logger'
 
 export default function Product({ navigation, route }) {
-    const [product, setProduct] = useState({ productPhotos: [{ url: '' }], productSizes: [{ size: '' }] })
+    const [product, setProduct] = useState({
+        productPhotos: [{ url: '' }],
+        productSizes: [{ size: '' }],
+    })
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -67,12 +71,13 @@ export default function Product({ navigation, route }) {
                 <Text style={styles.ProductName}>{product.name}</Text>
                 <View style={{ flexDirection: 'row' }}>
                     <Text style={styles.ProductPrice}>
-                        {helper.formatPrice(product.price)} VND      
+                        {helper.formatPrice(product.price)} VND
                     </Text>
-                    <Text style={styles.ProductPrice}>Size:  </Text>
+                    <Text style={styles.ProductPrice}>Size: </Text>
                     {product.productSizes.map((item, index) => (
-                        <Text style={styles.ProductPrice} key={index}>{item.size}  </Text>
-                        
+                        <Text style={styles.ProductPrice} key={index}>
+                            {item.size}{' '}
+                        </Text>
                     ))}
                 </View>
 

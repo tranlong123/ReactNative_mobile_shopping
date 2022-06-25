@@ -9,7 +9,8 @@ import {
 } from 'react-native'
 import { FontAwesome5 } from '@expo/vector-icons'
 import { useIsFocused } from '@react-navigation/native'
-import helper from '../../api/helper'
+import helper from '../../common/helper'
+import logger from '../../common/logger'
 
 const deviceWidth = Dimensions.get('screen').width
 
@@ -22,7 +23,7 @@ export default function OrderItem({ navigation, orderId }) {
         setOrder(response.data)
     }, [useIsFocused()])
 
-    console.log('order', order)
+    logger.log('order', order)
 
     const calculateTotal = () => {
         if (!order?.orderDetails) return 0

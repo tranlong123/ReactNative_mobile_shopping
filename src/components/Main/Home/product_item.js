@@ -1,5 +1,6 @@
 import { Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
-import helper from '../../../api/helper'
+import helper from '../../../common/helper'
+import logger from '../../../common/logger'
 export default function ProductItem({ navigation, imageUrl, name, price, id }) {
     return (
         <TouchableOpacity

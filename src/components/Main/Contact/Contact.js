@@ -7,11 +7,13 @@ import {
     TouchableOpacity,
 } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-import helper from '../../../api/helper'
+import helper from '../../../common/helper'
+import logger from '../../../common/logger'
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import { logout } from '../../../redux/action'
 
 const ProfileItem = ({ icon, name }) => (
     <View style={styles.itemContainer}>
@@ -33,9 +35,31 @@ export default function Contact({ navigation }) {
     //         .then((data) => setUserInfo(data.data))
     // }, [])
 
+    const cart = useSelector((state) => state.cart)
+    const orderDetails = cart.orderDetails
+
     const handleLogout = async () => {
-        const response = await helper.post('http://localhost:3000/logout')
+        await handleSaveCart()
+        await helper.post('http://localhost:3000/logout')
         navigation.navigate('AUTHENTICATION')
+        dispatch(logout())
+    }
+
+    async function handleSaveCart() {
+        // pre-processing data
+        const cartId = cart.id
+        const orders = orderDetails.map((orderDetail) => ({
+            quantityOrdered: orderDetail.quantityOrdered,
+            productId: orderDetail.product.id,
+        }))
+        logger.log(cartId, orders)
+
+        // call api
+        const saveResult = await helper.put(
+            'http://localhost:3000/cms/v1/order/' + cartId,
+            { status: 'Cart', orders },
+        )
+        logger.log(saveResult)
     }
 
     return (

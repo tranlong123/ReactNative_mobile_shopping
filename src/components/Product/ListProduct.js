@@ -8,7 +8,8 @@ import {
     Image,
 } from 'react-native'
 import { FontAwesome5 } from '@expo/vector-icons'
-import helper from '../../api/helper'
+import helper from '../../common/helper'
+import logger from '../../common/logger'
 
 export default function ListProduct({ navigation }) {
     const [products, setProducts] = useState([])

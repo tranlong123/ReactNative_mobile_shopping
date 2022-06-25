@@ -11,7 +11,8 @@ import {
 import { FontAwesome5 } from '@expo/vector-icons'
 import { insertProduct } from '../../redux/action'
 import { useDispatch, useSelector } from 'react-redux'
-import helper from '../../api/helper'
+import helper from '../../common/helper'
+import logger from '../../common/logger'
 
 export default function OrderProduct({
     navigation,
@@ -48,7 +49,7 @@ export default function OrderProduct({
                             navigation.navigate('PRODUCT', {
                                 id: product.id,
                             })
-                            console.log(product.id)
+                            logger.log(product.id)
                         }}
                     >
                         <Text style={styles.ShowDetail}>View product</Text>

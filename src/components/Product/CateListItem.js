@@ -8,7 +8,8 @@ import {
     Image,
 } from 'react-native'
 import { FontAwesome5 } from '@expo/vector-icons'
-import helper from '../../api/helper'
+import helper from '../../common/helper'
+import logger from '../../common/logger'
 
 export default function CateListItem({ navigation, route }) {
     const [CateProducts, setCateProducts] = useState([])
@@ -65,7 +66,7 @@ export default function CateListItem({ navigation, route }) {
                                             navigation.navigate('PRODUCT', {
                                                 id: item.id,
                                             })
-                                            console.log(item.id)
+                                            logger.log(item.id)
                                         }}
                                     >
                                         <Text style={styles.ShowDetail}>

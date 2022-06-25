@@ -11,7 +11,8 @@ import {
 } from 'react-native'
 import { Fontisto } from '@expo/vector-icons'
 import { useDispatch, useSelector } from 'react-redux'
-import helper from '../../../api/helper'
+import helper from '../../../common/helper'
+import logger from '../../../common/logger'
 import {
     removeProduct,
     insertProduct,

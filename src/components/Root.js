@@ -25,13 +25,13 @@ export default function Root() {
     return (
         <NavigationContainer>
             <Stack.Navigator
-                initialRouteName="TEST"
+                initialRouteName="AUTHENTICATION"
                 screenOptions={{
                     headerShown: false,
                 }}
             >
                 <Stack.Screen
-                    name="AUTHENTICATION"   
+                    name="AUTHENTICATION"
                     component={Authentication}
                 />
                 <Stack.Screen name="MAIN" component={Main} />

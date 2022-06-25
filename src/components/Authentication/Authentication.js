@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from 'react'
 import {
-    View, Text, TouchableOpacity,
+    View,
+    Text,
+    TouchableOpacity,
     StyleSheet,
     Dimensions,
     TextInput,
-} from 'react-native';
-import { FontAwesome5 } from '@expo/vector-icons';
-import { login, setCart } from '../../redux/action';
+} from 'react-native'
+import { FontAwesome5 } from '@expo/vector-icons'
+import { login, setCart } from '../../redux/action'
 import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
-import helper from '../../api/helper';
-import register from '../../api/register';
+import helper from '../../common/helper'
+import logger from '../../common/logger'
+import register from '../../common/register'
 
-const deviceWidth = Dimensions.get('screen').width;
+const deviceWidth = Dimensions.get('screen').width
 
 function Test({ navigation }) {
     const dispatch = useDispatch()
@@ -26,8 +29,7 @@ function Test({ navigation }) {
     const [upPassword, setUpPassword] = useState('')
     const [rePassword, setRePassword] = useState('')
     const [checkPw, setCheckPw] = useState(false)
-    const [message,setMessage] = useState('')
-
+    const [message, setMessage] = useState('')
 
     const signIn = () => {
         setIsSignIn(true)
@@ -59,10 +61,10 @@ function Test({ navigation }) {
     }
 
     const checkLogin = async () => {
-        const loginResponse = await helper.post(
-            'http://localhost:3000/login',
-            {email,password},
-        )
+        const loginResponse = await helper.post('http://localhost:3000/login', {
+            email,
+            password,
+        })
         gotoMain(loginResponse)
     }
 
@@ -76,13 +78,12 @@ function Test({ navigation }) {
         }
     }
 
-
     const registerUser = () => {
-        if(upPassword==rePassword) {
+        if (upPassword == rePassword) {
             setCheckPw(true)
-            register(upEmail, upUsername,  upPassword)
+            register(upEmail, upUsername, upPassword)
             setMessage('Đăng Ký Thành Công')
-        } else{
+        } else {
             setCheckPw(true)
             setMessage('re-password không đúng')
         }
@@ -90,12 +91,17 @@ function Test({ navigation }) {
 
     const signInJSX = (
         <View>
-            <TextInput style={styles.InputStyle} placeholder="Enter your email"
+            <TextInput
+                style={styles.InputStyle}
+                placeholder="Enter your email"
                 onChange={(event) => {
                     setEmail(event.target.value)
                 }}
             />
-            <TextInput secureTextEntry style={styles.InputStyle} placeholder="Enter your password"
+            <TextInput
+                secureTextEntry
+                style={styles.InputStyle}
+                placeholder="Enter your password"
                 onChange={(event) => {
                     setPassword(event.target.value)
                 }}
@@ -108,9 +114,11 @@ function Test({ navigation }) {
             >
                 <Text style={styles.ButtonText}>SIGN IN NOW</Text>
             </TouchableOpacity>
-            <Text style={!check ? styles.trueCheck : styles.falseCheck}>email or password incorrect</Text>
+            <Text style={!check ? styles.trueCheck : styles.falseCheck}>
+                email or password incorrect
+            </Text>
         </View>
-    );
+    )
     const signUpJSX = (
         <View>
             <TextInput
@@ -124,7 +132,7 @@ function Test({ navigation }) {
                 style={styles.InputStyle}
                 placeholder="Enter your email"
                 onChange={(event) => {
-                    setUpEmail(event.target.value )
+                    setUpEmail(event.target.value)
                 }}
             />
             <TextInput
@@ -144,48 +152,49 @@ function Test({ navigation }) {
                 }}
             />
             <Text style={styles.messageCenter}>{message}</Text>
-            <TouchableOpacity
-                style={styles.ButtonStyle}
-                onPress={registerUser}
-                
-            >
+            <TouchableOpacity style={styles.ButtonStyle} onPress={registerUser}>
                 <Text style={styles.ButtonText}>SIGN UP NOW</Text>
             </TouchableOpacity>
         </View>
-    );
+    )
 
-
-    const mainJSX = isSignIn ? signInJSX : signUpJSX;
+    const mainJSX = isSignIn ? signInJSX : signUpJSX
 
     return (
         <View style={styles.container}>
-            <View style={styles.iconStyle} >
+            <View style={styles.iconStyle}>
                 <FontAwesome5 name="shopify" size={90} color="#fff" />
             </View>
 
             {mainJSX}
 
             <View style={styles.controlStyle}>
-                <TouchableOpacity
-                    style={styles.SignInStyle}
-                    onPress={signIn}
-                >
-                    <Text style={isSignIn ? styles.activeStyle : styles.inactiveStyle}>SIGN IN</Text>
+                <TouchableOpacity style={styles.SignInStyle} onPress={signIn}>
+                    <Text
+                        style={
+                            isSignIn ? styles.activeStyle : styles.inactiveStyle
+                        }
+                    >
+                        SIGN IN
+                    </Text>
                 </TouchableOpacity>
-                <TouchableOpacity
-                    style={styles.SignUpStyle}
-                    onPress={signUp}
-                >
-                    <Text style={!isSignIn ? styles.activeStyle : styles.inactiveStyle}>SIGN UP</Text>
+                <TouchableOpacity style={styles.SignUpStyle} onPress={signUp}>
+                    <Text
+                        style={
+                            !isSignIn
+                                ? styles.activeStyle
+                                : styles.inactiveStyle
+                        }
+                    >
+                        SIGN UP
+                    </Text>
                 </TouchableOpacity>
             </View>
-
         </View>
     )
 }
 
 const styles = StyleSheet.create({
-
     container: {
         flex: 1,
         backgroundColor: '#3EBA77',
@@ -202,7 +211,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         width: deviceWidth * 0.7,
         marginBottom: 20,
-
     },
 
     activeStyle: {
@@ -213,7 +221,7 @@ const styles = StyleSheet.create({
     inactiveStyle: {
         fontSize: 20,
         margin: 8,
-        color: '#D7D7D7'
+        color: '#D7D7D7',
     },
     messageCenter: {
         textAlign: 'center',
@@ -261,11 +269,11 @@ const styles = StyleSheet.create({
     },
     falseCheck: {
         color: 'red',
-        fontSize: 15
+        fontSize: 15,
     },
     trueCheck: {
         color: '#3EBA77',
-    }
+    },
 })
 
 export default Test

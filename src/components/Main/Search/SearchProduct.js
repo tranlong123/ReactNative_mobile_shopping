@@ -1,7 +1,8 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
-import helper from '../../../api/helper'
+import helper from '../../../common/helper'
+import logger from '../../../common/logger'
 export default function SearchProduct({ navigation, item }) {
     const [product, setProduct] = useState({ productPhotos: [{ url: '' }] })
     useEffect(() => {
