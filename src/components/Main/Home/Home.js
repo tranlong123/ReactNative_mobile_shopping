@@ -33,8 +33,6 @@ export default function Home({ navigation }) {
     
     return (
         <ScrollView>
-
-
             <Header navigation={navigation} />
             {/* Category */}
             <View style={styles.ListName}>
