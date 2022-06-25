@@ -25,7 +25,7 @@ export default function Root() {
     return (
         <NavigationContainer>
             <Stack.Navigator
-                initialRouteName="AUTHENTICATION"
+                initialRouteName="TEST"
                 screenOptions={{
                     headerShown: false,
                 }}
