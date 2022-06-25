@@ -11,6 +11,7 @@ import React, { useState, useEffect } from 'react'
 import ProductItem from './product_item'
 import Header from './Header'
 import BanNerItem from './BannerItem'
+import helper from '../../../common/helper'
 
 const deviceWidth = Dimensions.get('screen').width
 
@@ -30,7 +31,6 @@ export default function Home({ navigation }) {
             .then((data) => setBannerList(data.data))
     }, [])
 
-    
     return (
         <ScrollView>
             <Header navigation={navigation} />
@@ -60,11 +60,11 @@ export default function Home({ navigation }) {
                 }}
             >
                 <Text style={styles.listNameText}>Product</Text>
-                <Text style={styles.seeMore}>See More</Text>
+                {/* <Text style={styles.seeMore}>List view</Text> */}
             </TouchableOpacity>
             <View style={[styles.Top_product, { width: deviceWidth }]}>
                 <View style={styles.flexDrRow}>
-                    {products.slice(0,6).map((item, index) => (
+                    {helper.getRandom(products).map((item, index) => (
                         <ProductItem
                             navigation={navigation}
                             name={item.name}

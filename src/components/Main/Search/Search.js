@@ -15,7 +15,7 @@ import logger from '../../../common/logger'
 const deviceWidth = Dimensions.get('window').width
 
 const Search = ({ navigation }) => {
-    const [searchInput, setSearchInput] = useState('polo')
+    const [searchInput, setSearchInput] = useState('')
     const [searchResult, setSearchResult] = useState([])
 
     // handle search icon click

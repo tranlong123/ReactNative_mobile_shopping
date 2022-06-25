@@ -46,7 +46,6 @@ export function reducer(state = initialState, action) {
         }
         case constant.REMOVE_PRODUCT: {
             const index = checkProductExist(newState.cart, action.payload)
-            console.log(index)
             if (newState.cart.orderDetails[index].quantityOrdered > 1) {
                 newState.cart.orderDetails[index].quantityOrdered--
                 break
@@ -54,7 +53,6 @@ export function reducer(state = initialState, action) {
         }
         case constant.CLEAR_PRODUCT: {
             const index = checkProductExist(newState.cart, action.payload)
-            console.log(index)
             if (index > 0) {
                 newState.cart.orderDetails.splice(index, 1)
             }

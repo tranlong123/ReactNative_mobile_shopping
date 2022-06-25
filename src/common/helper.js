@@ -27,6 +27,15 @@ const helper = {
     formatDate(date) {
         return date ? date : ''
     },
+    getRandom(items) {
+        const tempArray = [...items]
+        const result = []
+        while (tempArray.length > 0) {
+            const index = Math.floor(Math.random() * tempArray.length)
+            result.push(...tempArray.splice(index, 1))
+        }
+        return result
+    },
 }
 
 export default helper

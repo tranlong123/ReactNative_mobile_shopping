@@ -5,8 +5,8 @@ const logger = {
     group(groupName) {
         console.group(groupName)
     },
-    groupEnd(groupName) {
-        console.groupEnd(groupName)
+    groupEnd() {
+        console.groupEnd()
     },
 }
 
