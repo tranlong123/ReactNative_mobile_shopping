@@ -10,6 +10,7 @@ import { login, setCart } from '../../redux/action';
 import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
 import helper from '../../api/helper';
+import register from '../../api/register';
 
 const deviceWidth = Dimensions.get('screen').width;
 
@@ -70,18 +71,9 @@ function Test({ navigation }) {
         }
     }
 
-    const handleSignIn = () => {
-        axios.post('http://localhost:3000/login',{email,password})
-            .then((res) =>gotoMain(res))
-        getCart()
-    }
 
     const registerUser = () => {
-        // const { upUsername, upEmail, upPassword } = { upUsername, upEmail, upPassword }
-        register(upUsername, upEmail, upPassword)
-            .then(res => {
-                console.log(res)
-            })
+        register(upEmail, upUsername,  upPassword)
     }
 
     const signInJSX = (
@@ -120,7 +112,7 @@ function Test({ navigation }) {
                 style={styles.InputStyle}
                 placeholder="Enter your email"
                 onChange={(event) => {
-                    setUpEmail({ upEmail: event.target.value })
+                    setUpEmail(event.target.value )
                 }}
             />
             <TextInput
@@ -142,6 +134,7 @@ function Test({ navigation }) {
             <TouchableOpacity
                 style={styles.ButtonStyle}
                 onPress={registerUser}
+                
             >
                 <Text style={styles.ButtonText}>SIGN UP NOW</Text>
             </TouchableOpacity>
