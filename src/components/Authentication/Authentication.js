@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import {
     View,
     Text,
@@ -39,6 +39,7 @@ function Test({ navigation }) {
 
     const signUp = () => {
         setIsSignIn(false)
+        setMessage('')
     }
 
     const isFalse = () => {
@@ -51,7 +52,6 @@ function Test({ navigation }) {
 
     const handleLogin = async () => {
         await checkLogin()
-        await getCart()
     }
     const getCart = async () => {
         const response = await helper.get(
@@ -68,29 +68,37 @@ function Test({ navigation }) {
         gotoMain(loginResponse)
     }
 
-    const gotoMain = (res) => {
+    const gotoMain = async (res) => {
         if (res.data.msg == 'Login success') {
             dispatch(login(res.data.data))
+            await getCart()
             navigation.navigate('MAIN')
             isFalse()
+            setMessage('')
         } else {
+            setMessage('Tài khoản hoặc mật khẩu không chính xác')
             isTrue()
         }
     }
 
     const registerUser = () => {
-        if (upPassword == rePassword) {
-            setCheckPw(true)
+        if (!upUsername) {
+            setMessage('Vui lòng nhập tên')
+        } else if (!upEmail) {
+            setMessage('Vui lòng nhập email')
+        } else if (!upPassword || !rePassword) {
+            setMessage('Vui lòng nhập mật khẩu')
+        } else if (upPassword == rePassword) {
             register(upEmail, upUsername, upPassword)
             setMessage('Đăng Ký Thành Công')
         } else {
-            setCheckPw(true)
-            setMessage('re-password không đúng')
+            setMessage('Mật khẩu nhập lại không khớp')
         }
     }
 
     const signInJSX = (
         <View>
+            <TextInput style={{ display: 'none' }} />
             <TextInput
                 style={styles.InputStyle}
                 placeholder="Enter your email"
@@ -106,6 +114,7 @@ function Test({ navigation }) {
                     setPassword(event.target.value)
                 }}
             />
+            <Text style={styles.messageCenter}>{message}</Text>
             <TouchableOpacity
                 onPress={() => {
                     handleLogin()
@@ -114,16 +123,16 @@ function Test({ navigation }) {
             >
                 <Text style={styles.ButtonText}>SIGN IN NOW</Text>
             </TouchableOpacity>
-            <Text style={!check ? styles.trueCheck : styles.falseCheck}>
+            {/* <Text style={!check ? styles.trueCheck : styles.falseCheck}>
                 email or password incorrect
-            </Text>
+            </Text> */}
         </View>
     )
     const signUpJSX = (
         <View>
             <TextInput
                 style={styles.InputStyle}
-                placeholder="Enter your username"
+                placeholder="Enter your name"
                 onChange={(event) => {
                     setUpUsername(event.target.value)
                 }}
@@ -225,7 +234,7 @@ const styles = StyleSheet.create({
     },
     messageCenter: {
         textAlign: 'center',
-        color: 'red',
+        color: '#fdcb6e',
         fontSize: 15,
         paddingBottom: 8,
     },
