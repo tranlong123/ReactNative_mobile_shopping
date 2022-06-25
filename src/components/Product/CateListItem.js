@@ -35,7 +35,7 @@ export default function CateListItem({ navigation, route }) {
                         color="#34B089"
                     />
                 </TouchableOpacity>
-                <Text style={styles.titleStyle}>Product List</Text>
+                <Text style={styles.titleStyle}>Cate list product</Text>
                 <View style={{ width: 30 }}></View>
             </View>
             <ScrollView style={styles.wrapper}>
