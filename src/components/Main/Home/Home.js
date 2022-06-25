@@ -16,21 +16,31 @@ const deviceWidth = Dimensions.get('screen').width
 
 export default function Home({ navigation }) {
     const [products, setProducts] = useState([])
+    const [bnList, setBannerList] = useState([])
+
     useEffect(() => {
         fetch('http://localhost:3000/api/v1/product')
             .then((res) => res.json())
             .then((data) => setProducts(data.data))
     }, [])
-    const [bnList, setBannerList] = useState([])
+
     useEffect(() => {
         fetch('http://localhost:3000/api/v1/productLine')
             .then((res) => res.json())
             .then((data) => setBannerList(data.data))
     }, [])
 
+    // const limitArray = () => {
+    //     setProducts.slice.Map(0, 5)
+    // }
+
+
+
     return (
         <ScrollView>
-            <Header navigation={navigation}/>
+            {/* {limitArray} */}
+
+            <Header navigation={navigation} />
             {/* Category */}
             <View style={styles.ListName}>
                 <Text style={styles.listNameText}>List of Categories</Text>
@@ -49,7 +59,6 @@ export default function Home({ navigation }) {
                     </View>
                 </ScrollView>
             </View>
-
             {/* Producitem */}
             <TouchableOpacity
                 style={styles.ListName}
@@ -62,7 +71,7 @@ export default function Home({ navigation }) {
             </TouchableOpacity>
             <View style={[styles.Top_product, { width: deviceWidth }]}>
                 <View style={styles.flexDrRow}>
-                    {products.map((item, index) => (
+                    {products.slice(0,6).map((item, index) => (
                         <ProductItem
                             navigation={navigation}
                             name={item.name}
