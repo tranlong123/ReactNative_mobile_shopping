@@ -11,6 +11,7 @@ import { FontAwesome5 } from '@expo/vector-icons'
 import helper from '../../../api/helper'
 import { AntDesign } from '@expo/vector-icons';
 
+
 export default function ProductFilter({ navigation }) {
 
     const [filterPrice, setFilterPrice] = useState(0)
@@ -199,6 +200,7 @@ export default function ProductFilter({ navigation }) {
                     }}
                 >
                     <Text>Low To High</Text>
+                    <AntDesign name="arrowup" size={16} color="black" />
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={checkSort == 2 ? styles.buttonOnClick : styles.button}
@@ -211,6 +213,7 @@ export default function ProductFilter({ navigation }) {
                     }}
                 >
                     <Text>High To Low</Text>
+                    <AntDesign name="arrowdown" size={16} color="black" />
                 </TouchableOpacity>
             </View>
 
@@ -322,12 +325,14 @@ const styles = StyleSheet.create({
     button: {
         padding: 5,
         justifyContent: 'center',
+        flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: '#34B089'
     },
     buttonOnClick: {
         padding: 5,
         justifyContent: 'center',
+        flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: '#ff0000'
     },
