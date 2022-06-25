@@ -25,9 +25,14 @@ function Test({ navigation }) {
     const [upEmail, setUpEmail] = useState('')
     const [upPassword, setUpPassword] = useState('')
     const [rePassword, setRePassword] = useState('')
+    const [checkPw, setCheckPw] = useState(false)
+    const [message,setMessage] = useState('')
+
 
     const signIn = () => {
         setIsSignIn(true)
+        setCheckPw(false)
+        setMessage('')
     }
 
     const signUp = () => {
@@ -73,7 +78,14 @@ function Test({ navigation }) {
 
 
     const registerUser = () => {
-        register(upEmail, upUsername,  upPassword)
+        if(upPassword==rePassword) {
+            setCheckPw(true)
+            register(upEmail, upUsername,  upPassword)
+            setMessage('Đăng Ký Thành Công')
+        } else{
+            setCheckPw(true)
+            setMessage('re-password không đúng')
+        }
     }
 
     const signInJSX = (
@@ -131,6 +143,7 @@ function Test({ navigation }) {
                     setRePassword(event.target.value)
                 }}
             />
+            <Text style={styles.messageCenter}>{message}</Text>
             <TouchableOpacity
                 style={styles.ButtonStyle}
                 onPress={registerUser}
@@ -202,7 +215,12 @@ const styles = StyleSheet.create({
         margin: 8,
         color: '#D7D7D7'
     },
-
+    messageCenter: {
+        textAlign: 'center',
+        color: 'red',
+        fontSize: 15,
+        paddingBottom: 8,
+    },
     SignInStyle: {
         flex: 1,
         backgroundColor: '#fff',
