@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
         width: 30,
     },
     titleStyle: {
-        fontFamily: 'roboto',
+        fontFamily: 'sans-serif',
         color: '#34B089',
         fontSize: 30,
     },
@@ -99,19 +99,19 @@ const styles = StyleSheet.create({
         width: 90,
     },
     txtName: {
-        fontFamily: 'roboto',
-        color: '#BCBCBC',
+        fontFamily: 'sans-serif',
+        color: '#777',
         fontSize: 20,
         fontWeight: 400,
         marginTop: 4,
     },
     txtPrice: {
-        fontFamily: 'roboto',
+        fontFamily: 'sans-serif',
         color: '#1a53ff',
     },
     txtDesc: {},
 
     ShowDetail: {
-        color: '#1a53ff',
+        color: '#3EBA77',
     },
 })

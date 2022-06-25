@@ -70,7 +70,7 @@ export default function CartItem({ navigation, orderDetail, handleRerender }) {
                             navigation.navigate('PRODUCT', { id: product.id })
                         }}
                     >
-                        <Text style={styles.ShowDetail}>SHOW DETAIL</Text>
+                        <Text style={styles.ShowDetail}>Show detail</Text>
                     </TouchableOpacity>
                 </View>
                 <TouchableOpacity
@@ -106,6 +106,7 @@ const styles = StyleSheet.create({
     ProductInfo: {
         justifyContent: 'space-between',
         marginLeft: 16,
+        flex: 1,
     },
     ProductImage: {
         marginTop: 8,
@@ -113,13 +114,13 @@ const styles = StyleSheet.create({
         width: 90,
     },
     txtName: {
-        color: '#BCBCBC',
+        color: '#777',
         fontSize: 15,
         fontWeight: 400,
         marginTop: 4,
     },
     txtPrice: {
-        color: '#1a53ff',
+        color: '#ff3333',
     },
     numberOfProduct: {
         flexDirection: 'row',
@@ -130,6 +131,6 @@ const styles = StyleSheet.create({
         paddingRight: 6,
     },
     ShowDetail: {
-        color: '#1a53ff',
+        color: '#3EBA77',
     },
 })

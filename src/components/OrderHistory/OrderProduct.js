@@ -52,7 +52,7 @@ export default function OrderProduct({
                             logger.log(product.id)
                         }}
                     >
-                        <Text style={styles.ShowDetail}>View product</Text>
+                        <Text style={styles.ShowDetail}>Show detail</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
         width: 30,
     },
     titleStyle: {
-        fontFamily: 'roboto',
+        fontFamily: 'sans-serif',
         color: '#34B089',
         fontSize: 30,
     },
@@ -103,21 +103,21 @@ const styles = StyleSheet.create({
         width: 90,
     },
     txtName: {
-        color: '#333',
+        color: '#777',
         fontSize: 20,
         fontWeight: 400,
         marginTop: 4,
     },
     txtQuantity: {
-        color: '#444',
+        color: '#777',
     },
     txtPrice: {
-        fontFamily: 'roboto',
+        fontFamily: 'sans-serif',
         color: '#1a53ff',
     },
     txtDesc: {},
 
     ShowDetail: {
-        color: '#1a53ff',
+        color: '#3EBA77',
     },
 })

@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: '#1a53ff',
         position: 'absolute',
-        fontFamily: 'roboto',
+        fontFamily: 'sans-serif',
         right: 10,
     },
     Top_product: {

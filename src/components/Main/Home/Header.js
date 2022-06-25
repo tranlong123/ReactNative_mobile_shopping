@@ -20,7 +20,7 @@ export default function Header({ navigation }) {
                         style={{
                             color: '#fff',
                             fontSize: 24,
-                            fontFamily: 'roboto',
+                            fontFamily: 'sans-serif',
                         }}
                     >
                         Clothing Store

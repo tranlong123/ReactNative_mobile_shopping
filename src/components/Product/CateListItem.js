@@ -57,10 +57,7 @@ export default function CateListItem({ navigation, route }) {
                                     <Text style={styles.txtPrice}>
                                         {helper.formatPrice(item.price)} VND
                                     </Text>
-                                    <Text style={styles.txtDesc}>
-                                        {' '}
-                                        Description{' '}
-                                    </Text>
+                                    <Text style={styles.txtDesc}> </Text>
                                     <TouchableOpacity
                                         onPress={() => {
                                             navigation.navigate('PRODUCT', {
@@ -70,7 +67,7 @@ export default function CateListItem({ navigation, route }) {
                                         }}
                                     >
                                         <Text style={styles.ShowDetail}>
-                                            SHOW DETAIL
+                                            Show detail
                                         </Text>
                                     </TouchableOpacity>
                                 </View>
@@ -105,7 +102,7 @@ const styles = StyleSheet.create({
         width: 30,
     },
     titleStyle: {
-        fontFamily: 'roboto',
+        fontFamily: 'sans-serif',
         color: '#34B089',
         fontSize: 30,
     },
@@ -125,19 +122,19 @@ const styles = StyleSheet.create({
         width: 90,
     },
     txtName: {
-        fontFamily: 'roboto',
-        color: '#BCBCBC',
+        fontFamily: 'sans-serif',
+        color: '#777',
         fontSize: 20,
         fontWeight: 400,
         marginTop: 4,
     },
     txtPrice: {
-        fontFamily: 'roboto',
-        color: '#1a53ff',
+        fontFamily: 'sans-serif',
+        color: '#ff3333',
     },
     txtDesc: {},
 
     ShowDetail: {
-        color: '#1a53ff',
+        color: '#3EBA77',
     },
 })

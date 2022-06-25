@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
         width: 30,
     },
     titleStyle: {
-        fontFamily: 'roboto',
+        fontFamily: 'sans-serif',
         color: '#34B089',
         fontSize: 30,
     },

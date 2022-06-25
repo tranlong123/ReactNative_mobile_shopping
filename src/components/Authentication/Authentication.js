@@ -272,7 +272,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     ButtonText: {
-        fontFamily: 'roboto',
+        fontFamily: 'sans-serif',
         color: '#fff',
         fontWeight: '400',
     },

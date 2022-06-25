@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         padding: 10,
         fontSize: 30,
-        color: '#333',
+        color: '#777',
     },
     totalArea: {
         flexDirection: 'row',
@@ -142,6 +142,6 @@ const styles = StyleSheet.create({
     },
     totalTxt: {
         fontSize: 20,
-        color: '#333',
+        color: '#777',
     },
 })
