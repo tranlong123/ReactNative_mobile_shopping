@@ -28,14 +28,6 @@ export default function ProductFilter({ navigation }) {
             .then((data) => setProducts(data.data))
     }, [])
 
-    const click = (check) => {
-        if (check == true) {
-            check = false
-        } else {
-            check = true
-        }
-    }
-
     return (
         <View style={styles.container}>
             <View style={styles.header}>
