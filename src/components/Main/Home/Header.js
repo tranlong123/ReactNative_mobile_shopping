@@ -4,7 +4,7 @@ import {
   TextInput,
   TouchableOpacity
 } from 'react-native'
-import { Entypo } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons'; 
 
 export default function Header({navigation}) {
   return (
@@ -20,7 +20,7 @@ export default function Header({navigation}) {
             navigation.navigate('PRODUCTFILTE')
         }}
         >
-          <Entypo name="grid" size={24} color="#fff" />
+          <FontAwesome5 name="list" size={24} color="#fff" />
         </TouchableOpacity>
       </View>
     </>

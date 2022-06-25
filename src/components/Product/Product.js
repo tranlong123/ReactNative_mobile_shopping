@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import helper from '../../api/helper'
 
 export default function Product({ navigation, route }) {
-    const [product, setProduct] = useState({ productPhotos: [{ url: '' }] })
+    const [product, setProduct] = useState({ productPhotos: [{ url: '' }], productSizes: [{ size: '' }] })
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -65,9 +65,17 @@ export default function Product({ navigation, route }) {
                     ))}
                 </ScrollView>
                 <Text style={styles.ProductName}>{product.name}</Text>
-                <Text style={styles.ProductPrice}>
-                    {helper.formatPrice(product.price)} VND
-                </Text>
+                <View style={{ flexDirection: 'row' }}>
+                    <Text style={styles.ProductPrice}>
+                        {helper.formatPrice(product.price)} VND      
+                    </Text>
+                    <Text style={styles.ProductPrice}>Size:  </Text>
+                    {product.productSizes.map((item, index) => (
+                        <Text style={styles.ProductPrice} key={index}>{item.size}  </Text>
+                        
+                    ))}
+                </View>
+
                 <Text style={styles.ProductDesc}>{product.description}</Text>
                 <View style={styles.BuyButton}>
                     <Button
