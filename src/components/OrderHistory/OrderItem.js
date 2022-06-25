@@ -52,6 +52,10 @@ export default function OrderItem({ navigation, orderId }) {
                         </Text>
                     </View>
                     <View style={styles.rowBetween}>
+                        <Text style={styles.titleTxt}>OrderStatus:</Text>
+                        <Text style={{ color: '#C21C70' }}>{order.status}</Text>
+                    </View>
+                    <View style={styles.rowBetween}>
                         <Text style={styles.titleTxt}>Total: </Text>
                         <Text style={{ color: '#C21C70', fontWeight: 'bold' }}>
                             {calculateTotal()} VND

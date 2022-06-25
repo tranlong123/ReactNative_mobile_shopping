@@ -7,9 +7,11 @@ import {
     TextInput,
 } from 'react-native'
 import { FontAwesome5 } from '@expo/vector-icons'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import helper from '../../api/helper'
+import { login } from '../../redux/action'
 export default function ChangeInfo({ navigation }) {
+    const dispatch = useDispatch()
     const [user, setUser] = useState({
         ...useSelector((state) => state).user,
         password: '',
@@ -26,6 +28,11 @@ export default function ChangeInfo({ navigation }) {
             user,
         )
         setMessage('Your info is updated', JSON.stringify(response))
+        handleUpdateLocal(response.data.result)
+    }
+
+    const handleUpdateLocal = (user) => {
+        dispatch(login(user))
     }
 
     return (

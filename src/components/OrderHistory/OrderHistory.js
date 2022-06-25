@@ -47,13 +47,16 @@ export default function OrderHistory({ navigation }) {
                 </TouchableOpacity>
             </View>
             <ScrollView style={styles.wrapper}>
-                {orders.map((order, index) => (
-                    <OrderItem
-                        navigation={navigation}
-                        key={index}
-                        orderId={order.id}
-                    ></OrderItem>
-                ))}
+                {orders.map(
+                    (order, index) =>
+                        order.status != 'Cart' && (
+                            <OrderItem
+                                navigation={navigation}
+                                key={index}
+                                orderId={order.id}
+                            ></OrderItem>
+                        ),
+                )}
             </ScrollView>
         </View>
     )
