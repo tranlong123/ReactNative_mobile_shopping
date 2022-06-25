@@ -14,6 +14,7 @@ import axios from 'axios'
 import helper from '../../common/helper'
 import logger from '../../common/logger'
 import register from '../../common/register'
+import { Feather } from '@expo/vector-icons';
 
 const deviceWidth = Dimensions.get('screen').width
 
@@ -30,6 +31,12 @@ function Test({ navigation }) {
     const [rePassword, setRePassword] = useState('')
     const [checkPw, setCheckPw] = useState(false)
     const [message, setMessage] = useState('')
+    const [seePass, setSeePass] = useState(true)
+    const [iconSee, setIconSee] = useState('eye')
+    const [seeUpPass, setSeeUpPass] = useState(true)
+    const [iconSeeUpPass, setIconSeeUpPass] = useState('eye')
+    const [seeRePass, setSeeRePass] = useState(true)
+    const [iconSeeRePass, setIconSeeRePass] = useState('eye')
 
     const signIn = () => {
         setIsSignIn(true)
@@ -101,19 +108,38 @@ function Test({ navigation }) {
             <TextInput style={{ display: 'none' }} />
             <TextInput
                 style={styles.InputStyle}
+                autoFocus={true}
                 placeholder="Enter your email"
                 onChange={(event) => {
                     setEmail(event.target.value)
                 }}
             />
-            <TextInput
-                secureTextEntry
-                style={styles.InputStyle}
-                placeholder="Enter your password"
-                onChange={(event) => {
-                    setPassword(event.target.value)
-                }}
-            />
+            <View style={styles.InputStyle}>
+                <TextInput
+                    secureTextEntry={seePass}
+                    style={{
+                        flex: 1,
+                        paddingLeft: 0,
+                    }}
+                    placeholder="Enter your password"
+                    onChange={(event) => {
+                        setPassword(event.target.value)
+                    }}
+                />
+                <TouchableOpacity
+                    onPress={() => {
+                        if (seePass == true) {
+                            setSeePass(false)
+                            setIconSee('eye-off')
+                        } else {
+                            setSeePass(true)
+                            setIconSee('eye')
+                        }
+                    }}
+                >
+                    <Feather name={iconSee} size={24} color="#3EBA77" style={{ padding: 10 }} />
+                </TouchableOpacity>
+            </View>
             <Text style={styles.messageCenter}>{message}</Text>
             <TouchableOpacity
                 onPress={() => {
@@ -123,9 +149,6 @@ function Test({ navigation }) {
             >
                 <Text style={styles.ButtonText}>SIGN IN NOW</Text>
             </TouchableOpacity>
-            {/* <Text style={!check ? styles.trueCheck : styles.falseCheck}>
-                email or password incorrect
-            </Text> */}
         </View>
     )
     const signUpJSX = (
@@ -144,22 +167,58 @@ function Test({ navigation }) {
                     setUpEmail(event.target.value)
                 }}
             />
-            <TextInput
-                secureTextEntry
-                style={styles.InputStyle}
-                placeholder="Enter your password"
-                onChange={(event) => {
-                    setUpPassword(event.target.value)
-                }}
-            />
-            <TextInput
-                secureTextEntry
-                style={styles.InputStyle}
-                placeholder="Re-enter your password"
-                onChange={(event) => {
-                    setRePassword(event.target.value)
-                }}
-            />
+            <View style={styles.InputStyle}>
+                <TextInput
+                    secureTextEntry={seeUpPass}
+                    style={{
+                        flex: 1,
+                        paddingLeft: 0,
+                    }}
+                    placeholder="Enter your password"
+                    onChange={(event) => {
+                        setUpPassword(event.target.value)
+                    }}
+                />
+                <TouchableOpacity
+                    onPress={() => {
+                        if (seeUpPass == true) {
+                            setSeeUpPass(false)
+                            setIconSeeUpPass('eye-off')
+                        } else {
+                            setSeeUpPass(true)
+                            setIconSeeUpPass('eye')
+                        }
+                    }}
+                >
+                    <Feather name={iconSeeUpPass} size={24} color="#3EBA77" style={{ padding: 10 }} />
+                </TouchableOpacity>
+            </View>
+            <View style={styles.InputStyle}>
+                <TextInput
+                    secureTextEntry={seeRePass}
+                    style={{
+                        flex: 1,
+                        paddingLeft: 0,
+                    }}
+                    placeholder="Re-enter your password"
+                    onChange={(event) => {
+                        setRePassword(event.target.value)
+                    }}
+                />
+                <TouchableOpacity
+                    onPress={() => {
+                        if (seeRePass == true) {
+                            setSeeRePass(false)
+                            setIconSeeRePass('eye-off')
+                        } else {
+                            setSeeRePass(true)
+                            setIconSeeRePass('eye')
+                        }
+                    }}
+                >
+                    <Feather name={iconSeeRePass} size={24} color="#3EBA77" style={{ padding: 10 }} />
+                </TouchableOpacity>
+            </View>
             <Text style={styles.messageCenter}>{message}</Text>
             <TouchableOpacity style={styles.ButtonStyle} onPress={registerUser}>
                 <Text style={styles.ButtonText}>SIGN UP NOW</Text>
@@ -258,6 +317,7 @@ const styles = StyleSheet.create({
         width: deviceWidth * 0.8,
         height: 50,
         backgroundColor: '#fff',
+        flexDirection: 'row',
         marginBottom: 10,
         borderRadius: 20,
         paddingLeft: 30,

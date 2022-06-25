@@ -6,12 +6,19 @@ import {
     StyleSheet,
     TextInput,
 } from 'react-native'
-import { FontAwesome5 } from '@expo/vector-icons'
+import { FontAwesome5, Feather } from '@expo/vector-icons'
 import { useDispatch, useSelector } from 'react-redux'
 import helper from '../../common/helper'
 import logger from '../../common/logger'
 import { login } from '../../redux/action'
+
+
 export default function ChangeInfo({ navigation }) {
+    const [SeePassWord, setSeePassWord] = useState(true)
+    const [iconSeePassWord, setIconSeePassWord] = useState('eye')
+    const [SeeRePassWord, setSeeRePassWord] = useState(true)
+    const [iconSeeRePassWord, setIconSeeRePassWord] = useState('eye')
+
     const dispatch = useDispatch()
     const [user, setUser] = useState({
         ...useSelector((state) => state).user,
@@ -60,6 +67,7 @@ export default function ChangeInfo({ navigation }) {
                         style={styles.textInput}
                         placeholder="Change your name"
                         autoCapitalize="none"
+                        autoFocus={true}
                         value={user.username}
                         onChange={(event) =>
                             setUser((user) => ({
@@ -69,32 +77,72 @@ export default function ChangeInfo({ navigation }) {
                         }
                         underlineColorAndroid="transparent"
                     />
-                    <TextInput
-                        style={styles.textInput}
-                        placeholder="Change password"
-                        autoCapitalize="none"
-                        value={user.password}
-                        onChange={(event) =>
-                            setUser((user) => ({
-                                ...user,
-                                password: event.target.value,
-                            }))
-                        }
-                        underlineColorAndroid="transparent"
-                    />
-                    <TextInput
-                        style={styles.textInput}
-                        placeholder="Re-enter password"
-                        autoCapitalize="none"
-                        value={user.rePassword}
-                        onChange={(event) =>
-                            setUser((user) => ({
-                                ...user,
-                                rePassword: event.target.value,
-                            }))
-                        }
-                        underlineColorAndroid="transparent"
-                    />
+                    <View style={styles.textInput}>
+                        <TextInput
+                            style={{
+                                flex: 1,
+                                paddingLeft: 0,
+                            }}
+                            placeholder="Change password"
+                            autoCapitalize="none"
+                            secureTextEntry={SeePassWord}
+                            value={user.password}
+                            onChange={(event) =>
+                                setUser((user) => ({
+                                    ...user,
+                                    password: event.target.value,
+                                }))
+                            }
+                            underlineColorAndroid="transparent"
+                        />
+                        <TouchableOpacity
+                            onPress={() => {
+                                if (SeePassWord == true) {
+                                    setSeePassWord(false)
+                                    setIconSeePassWord('eye-off')
+                                } else {
+                                    setSeePassWord(true)
+                                    setIconSeePassWord('eye')
+                                }
+                            }}
+                        >
+                            <Feather name={iconSeePassWord} size={24} color="#3EBA77" style={{ padding: 10 }} />
+                        </TouchableOpacity>
+                    </View>
+
+
+                    <View style={styles.textInput}>
+                        <TextInput
+                            style={{
+                                flex: 1,
+                                paddingLeft: 0,
+                            }}
+                            placeholder="Re-enter password"
+                            autoCapitalize="none"
+                            secureTextEntry={SeeRePassWord}
+                            value={user.rePassword}
+                            onChange={(event) =>
+                                setUser((user) => ({
+                                    ...user,
+                                    rePassword: event.target.value,
+                                }))
+                            }
+                            underlineColorAndroid="transparent"
+                        />
+                        <TouchableOpacity
+                            onPress={() => {
+                                if (SeeRePassWord == true) {
+                                    setSeeRePassWord(false)
+                                    setIconSeeRePassWord('eye-off')
+                                } else {
+                                    setSeeRePassWord(true)
+                                    setIconSeeRePassWord('eye')
+                                }
+                            }}
+                        >
+                            <Feather name={iconSeeRePassWord} size={24} color="#3EBA77" style={{ padding: 10 }} />
+                        </TouchableOpacity>
+                    </View>
                     {message ? (
                         <Text style={styles.messageCenter}>{message}</Text>
                     ) : (
@@ -144,6 +192,7 @@ const styles = StyleSheet.create({
     body: { flex: 10, backgroundColor: '#F6F6F6', justifyContent: 'center' },
     textInput: {
         height: 45,
+        flexDirection: 'row',
         marginHorizontal: 20,
         backgroundColor: '#FFFFFF',
         paddingLeft: 20,
