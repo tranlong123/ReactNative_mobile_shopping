@@ -9,11 +9,9 @@ import {
 } from 'react-native'
 import { FontAwesome5 } from '@expo/vector-icons'
 import helper from '../../../api/helper'
-import { AntDesign } from '@expo/vector-icons';
-
+import { AntDesign } from '@expo/vector-icons'
 
 export default function ProductFilter({ navigation }) {
-
     const [filterPrice, setFilterPrice] = useState(0)
     // 0:ko chọn ,1:<300,2:300-400,3:>400
 
@@ -29,12 +27,128 @@ export default function ProductFilter({ navigation }) {
     const [checkSort, setCheckSort] = useState(0)
     // 0:ko chọn, 1:thấp đến cao, 2:cao đến thấp
 
+    // Load data
     const [products, setProducts] = useState([])
     useEffect(() => {
         fetch('http://localhost:3000/api/v1/product')
             .then((res) => res.json())
             .then((data) => setProducts(data.data))
     }, [])
+
+    useEffect(() => {
+        handleSort()
+    }, [checkSort])
+
+    const handleFilter = async () => {
+        console.log('Handle filter')
+        const size = getSizes()
+        const productLine = getProductLine()
+        const { priceFrom, priceTo } = getPrice()
+        console.log(
+            'productLine',
+            productLine,
+            'size',
+            size,
+            'priceFrom',
+            priceFrom,
+            'priceTo',
+            priceTo,
+        )
+        console.log(products)
+
+        const response = await helper.get(
+            `http://localhost:3000/api/v1/product?productLine=${productLine}&size=${size}&priceFrom=${priceFrom}&priceTo=${priceTo}`,
+        )
+        setProducts([...response.data.data])
+        handleSort()
+    }
+
+    const getSizes = () => {
+        const sizes = []
+        if (checkM) sizes.push('M')
+        if (checkS) sizes.push('S')
+        if (checkL) sizes.push('L')
+        if (checkXL) sizes.push('XL')
+        if (checkXXL) sizes.push('XXL')
+
+        return sizes.join(',')
+    }
+
+    const getProductLine = () => {
+        let productLine = null
+        if (checkMan) {
+            if (checkWoman) productLine = null
+            else productLine = 1
+        } else {
+            if (checkWoman) productLine = 2
+            else productLine = null
+        }
+        return productLine
+    }
+
+    const getPrice = () => {
+        let priceFrom = 0
+        let priceTo = 99999999
+        switch (filterPrice) {
+            case 1: {
+                priceTo = 300000 - 1
+                break
+            }
+            case 2: {
+                priceFrom = 300000
+                priceTo = 400000
+                break
+            }
+            case 3: {
+                priceFrom = 400000 + 1
+                break
+            }
+            default:
+                break
+        }
+
+        return { priceFrom, priceTo }
+    }
+
+    const handleSort = () => {
+        switch (checkSort) {
+            case 0: {
+                // id từ thấp đến cao
+                setProducts((products) => {
+                    return [
+                        ...products.sort(function (a, b) {
+                            return a.id - b.id
+                        }),
+                    ]
+                })
+                break
+            }
+            case 1: {
+                // giá từ thấp đến cao
+                setProducts((products) => {
+                    return [
+                        ...products.sort(function (a, b) {
+                            return a.price - b.price
+                        }),
+                    ]
+                })
+                break
+            }
+            case 2: {
+                // giá từ cao đến thấp
+                setProducts((products) => {
+                    return [
+                        ...products.sort(function (a, b) {
+                            return b.price - a.price
+                        }),
+                    ]
+                })
+                break
+            }
+            default:
+                break
+        }
+    }
 
     return (
         <View style={styles.container}>
@@ -55,9 +169,11 @@ export default function ProductFilter({ navigation }) {
                 <View style={{ width: 30 }}></View>
             </View>
             <View style={styles.filter}>
-                <Text style={{ width: 90 }} > Choose size </Text>
+                <Text style={{ width: 90 }}> Choose size </Text>
                 <TouchableOpacity
-                    style={!checkM ? styles.sizeFilter : styles.sizeFilterInClick}
+                    style={
+                        !checkM ? styles.sizeFilter : styles.sizeFilterInClick
+                    }
                     onPress={() => {
                         if (checkM == true) {
                             setCheckM(false)
@@ -69,7 +185,9 @@ export default function ProductFilter({ navigation }) {
                     <Text>M</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                    style={!checkS ? styles.sizeFilter : styles.sizeFilterInClick}
+                    style={
+                        !checkS ? styles.sizeFilter : styles.sizeFilterInClick
+                    }
                     onPress={() => {
                         if (checkS == true) {
                             setCheckS(false)
@@ -81,7 +199,9 @@ export default function ProductFilter({ navigation }) {
                     <Text>S</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                    style={!checkL ? styles.sizeFilter : styles.sizeFilterInClick}
+                    style={
+                        !checkL ? styles.sizeFilter : styles.sizeFilterInClick
+                    }
                     onPress={() => {
                         if (checkL == true) {
                             setCheckL(false)
@@ -93,7 +213,9 @@ export default function ProductFilter({ navigation }) {
                     <Text>L</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                    style={!checkXL ? styles.sizeFilter : styles.sizeFilterInClick}
+                    style={
+                        !checkXL ? styles.sizeFilter : styles.sizeFilterInClick
+                    }
                     onPress={() => {
                         if (checkXL == true) {
                             setCheckXL(false)
@@ -105,7 +227,9 @@ export default function ProductFilter({ navigation }) {
                     <Text>XL</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                    style={!checkXXL ? styles.sizeFilter : styles.sizeFilterInClick}
+                    style={
+                        !checkXXL ? styles.sizeFilter : styles.sizeFilterInClick
+                    }
                     onPress={() => {
                         if (checkXXL == true) {
                             setCheckXXL(false)
@@ -118,19 +242,21 @@ export default function ProductFilter({ navigation }) {
                 </TouchableOpacity>
             </View>
             <View style={styles.filter}>
-                <Text style={{ width: 90 }}  > Choose price </Text>
+                <Text style={{ width: 90 }}> Choose price </Text>
                 <TouchableOpacity
                     style={filterPrice == 1 ? styles.red : styles.green}
                     onPress={() => {
                         if (filterPrice == 1) {
                             setFilterPrice(0)
-                        }
-                        else {
+                        } else {
                             setFilterPrice(1)
                         }
                     }}
                 >
-                    <Text> <AntDesign name="left" size={14} color="black" /> 300K</Text>
+                    <Text>
+                        {' '}
+                        <AntDesign name="left" size={14} color="black" /> 300K
+                    </Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
@@ -155,12 +281,15 @@ export default function ProductFilter({ navigation }) {
                         }
                     }}
                 >
-                    <Text> <AntDesign name="right" size={14} color="black" /> 400K</Text>
+                    <Text>
+                        {' '}
+                        <AntDesign name="right" size={14} color="black" /> 400K
+                    </Text>
                 </TouchableOpacity>
             </View>
 
             <View style={styles.filter}>
-                <Text style={{ width: 90 }} > User </Text>
+                <Text style={{ width: 90 }}> User </Text>
                 <TouchableOpacity
                     style={checkMan ? styles.userOnclick : styles.user}
                     onPress={() => {
@@ -188,9 +317,11 @@ export default function ProductFilter({ navigation }) {
             </View>
 
             <View style={styles.filter}>
-                <Text style={{ width: 90 }} > Sort by price </Text>
+                <Text style={{ width: 90 }}> Sort by price </Text>
                 <TouchableOpacity
-                    style={checkSort == 1 ? styles.buttonOnClick : styles.button}
+                    style={
+                        checkSort == 1 ? styles.buttonOnClick : styles.button
+                    }
                     onPress={() => {
                         if (checkSort == 1) {
                             setCheckSort(0)
@@ -203,7 +334,9 @@ export default function ProductFilter({ navigation }) {
                     <AntDesign name="arrowup" size={16} color="black" />
                 </TouchableOpacity>
                 <TouchableOpacity
-                    style={checkSort == 2 ? styles.buttonOnClick : styles.button}
+                    style={
+                        checkSort == 2 ? styles.buttonOnClick : styles.button
+                    }
                     onPress={() => {
                         if (checkSort == 2) {
                             setCheckSort(0)
@@ -218,16 +351,10 @@ export default function ProductFilter({ navigation }) {
             </View>
 
             <View style={styles.filter}>
-                <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => {
-
-                    }}
-                >
+                <TouchableOpacity style={styles.button} onPress={handleFilter}>
                     <Text>START FILTER</Text>
                 </TouchableOpacity>
             </View>
-
 
             <ScrollView style={styles.wrapper}>
                 {products.map(
@@ -287,7 +414,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         flexDirection: 'row',
         padding: 5,
-
     },
 
     sizeFilter: {
@@ -296,7 +422,7 @@ const styles = StyleSheet.create({
         height: 30,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#34B089'
+        backgroundColor: '#34B089',
     },
     sizeFilterInClick: {
         padding: 5,
@@ -304,7 +430,7 @@ const styles = StyleSheet.create({
         height: 30,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#ff0000'
+        backgroundColor: '#ff0000',
     },
     green: {
         padding: 5,
@@ -312,7 +438,7 @@ const styles = StyleSheet.create({
         height: 30,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#34B089'
+        backgroundColor: '#34B089',
     },
     red: {
         padding: 5,
@@ -320,35 +446,35 @@ const styles = StyleSheet.create({
         height: 30,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#ff0000'
+        backgroundColor: '#ff0000',
     },
     button: {
         padding: 5,
         justifyContent: 'center',
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: '#34B089'
+        backgroundColor: '#34B089',
     },
     buttonOnClick: {
         padding: 5,
         justifyContent: 'center',
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: '#ff0000'
+        backgroundColor: '#ff0000',
     },
     user: {
         width: 60,
         height: 30,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#34B089'
+        backgroundColor: '#34B089',
     },
     userOnclick: {
         width: 60,
         height: 30,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#ff0000'
+        backgroundColor: '#ff0000',
     },
 
     wrapper: {
